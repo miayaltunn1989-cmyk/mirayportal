@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingoVerse Portal - K-8 English Education Platform</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        body {
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* NIGHT MODE OVERRIDES */
+        body.night-mode {
+            background-color: #121824;
+            color: #e2e8f0;
+        }
+        body.night-mode .welcome-card,
+        body.night-mode .scroll-card,
+        body.night-mode .content-card-box,
+        body.night-mode .panel-widget {
+            background-color: #1a2333;
+            color: #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-color: #2d3748;
+        }
+        body.night-mode .scroll-thumb {
+            background-color: #2d3748;
+        }
+        body.night-mode .section-header {
+            color: #e2e8f0;
+        }
+        body.night-mode .quiz-option {
+            background-color: #212e42;
+            border-color: #3d4f68;
+            color: #e2e8f0;
+        }
+        body.night-mode .quiz-option:hover {
+            background-color: #1e3a47;
+            border-color: #00a896;
+        }
+        body.night-mode .ataturk-showcase {
+            background: linear-gradient(135deg, #1a2333 0%, #212e42 100%);
+            border-color: #3d4f68;
+        }
+        body.night-mode .ataturk-quote {
+            color: #cbd5e1;
+        }
+        body.night-mode .level-btn {
+            background-color: #212e42;
+            border-color: #3d4f68;
+            color: #cbd5e1;
+        }
+        body.night-mode .level-btn.active {
+            background-color: #1a2333;
+            border-color: #00a896;
+            color: #00a896;
+        }
+
+        /* LEFT FLOATING APP SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #00a896 0%, #028090 100%);
+            color: white;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-circle {
+            width: 90px;
+            height: 90px;
+            border: 3px solid white;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-circle svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+        .brand-name {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: white;
+            color: #028090;
+        }
+        .nav-sub-list {
+            margin: 5px 0 10px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .nav-sub-item {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .nav-sub-item:hover, .nav-sub-item.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            font-weight: bold;
+        }
+        .toggle-container {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 20px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255,255,255,0.3);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 4px; bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #f39c12; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .sidebar-footer {
+            font-size: 11px;
+            opacity: 0.9;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* MAIN WRAPPER CONTAINER */
+        .wrapper {
+            margin-left: 260px;
+            display: flex;
+            width: calc(100% - 260px);
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* CENTRAL CONTENT AREA */
+        .main-content {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .welcome-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-text h2 {
+            margin: 0;
+            color: #00a896;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .welcome-text p {
+            margin: 8px 0 0 0;
+            color: #7f8c8d;
+            font-size: 15px;
+        }
+        .welcome-avatar { width: 100px; height: 100px; }
+        
+        .promo-banner {
+            background: linear-gradient(135deg, #028090 0%, #00a896 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(2, 128, 144, 0.2);
+        }
+        .promo-title { font-size: 24px; font-weight: bold; }
+        .promo-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+            transition: transform 0.2s;
+        }
+        .promo-btn:hover { transform: scale(1.05); }
+
+        /* HORIZONTAL SCROLL LATEST ITEMS */
+        .section-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .scroll-container {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .scroll-card {
+            background: white;
+            border-radius: 12px;
+            min-width: 210px;
+            max-width: 210px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            text-align: center;
+            border: 1px solid #eef2f5;
+        }
+        .scroll-thumb {
+            width: 100%;
+            height: 100px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .scroll-thumb span { font-size: 35px; }
+        .scroll-title-text {
+            font-size: 13px;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 8px;
+            height: 36px;
+            overflow: hidden;
+        }
+        body.night-mode .scroll-title-text { color: #cbd5e1; }
+        
+        .action-btn {
+            background-color: #00a896;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .action-btn:hover { background-color: #028090; }
+
+        .content-card-box {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        /* GRID FOR UNITS */
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .grid-item {
+            background-color: #00b4d8;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,180,216,0.15);
+        }
+        .grid-item:hover {
+            background-color: #0077b6;
+            transform: translateY(-2px);
+        }
+        .grid-item.special { background-color: #0096c7; }
+
+        /* STUDY AREA */
+        .study-zone {
+            padding: 10px 5px;
+        }
+        .study-block {
+            background: #f0fdfa;
+            border-left: 5px solid #00a896;
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+        }
+        body.night-mode .study-block {
+            background: #1e293b;
+        }
+        .study-block h4 { margin: 0 0 8px 0; color: #028090; font-size: 16px; }
+        body.night-mode .study-block h4 { color: #00a896; }
+        .study-block p { margin: 0; font-size: 14px; color: #475569; line-height: 1.6; white-space: pre-line; }
+        body.night-mode .study-block p { color: #cbd5e1; }
+
+        /* INTERACTIVE QUIZ AREA */
+        .game-zone {
+            background: #f8f9fa;
+            border: 2px dashed #00a896;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        body.night-mode .game-zone {
+            background: #1a2333;
+        }
+        .quiz-option {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            width: 100%;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover {
+            border-color: #00a896;
+            background-color: #edfcf9;
+        }
+
+        /* RIGHT PANEL STYLING */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 300px;
+        }
+        .panel-widget {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        
+        .meb-header-btn {
+            background-color: #028090;
+            color: white;
+            width: 100%;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background 0.2s;
+        }
+        .meb-header-btn:hover { background-color: #00a896; }
+
+        .ataturk-showcase {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+        .ataturk-avatar {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #028090;
+            margin-bottom: 10px;
+        }
+        .ataturk-quote {
+            font-size: 12px;
+            color: #555;
+            font-style: italic;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .level-selector-title { font-size: 14px; font-weight: bold; color: #666; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        body.night-mode .level-selector-title { color: #cbd5e1; }
+        .level-row { display: flex; gap: 10px; margin-top: 10px; }
+        .level-btn {
+            flex: 1; background: #f8f9fa; border: 1px solid #e2e8f0; padding: 12px;
+            font-weight: bold; font-size: 14px; border-radius: 8px; cursor: pointer; text-align: center;
+            color: #333; transition: all 0.2s;
+        }
+        .level-btn.active {
+            background: white; border-color: #00a896; box-shadow: 0 4px 10px rgba(0, 168, 150, 0.15);
+            transform: scale(1.05); color: #00a896;
+        }
+
+        .eba-resource-box {
+            background: linear-gradient(135deg, #ff9f1c 0%, #ffbf69 100%);
+            color: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 15px;
+            cursor: pointer; transition: transform 0.2s; text-decoration: none; margin-top: 15px;
+        }
+        .eba-resource-box:hover { transform: translateY(-2px); }
+        .eba-badge-logo { background: white; color: #ff9f1c; font-weight: 900; padding: 8px 12px; border-radius: 8px; font-size: 18px; }
+        
+        .footer-license-box {
+            background-color: #2b9348; color: white; border-radius: 12px; padding: 15px;
+            text-align: center; font-weight: bold; font-size: 13px; box-shadow: 0 4px 10px rgba(43, 147, 72, 0.2);
+        }
+
+        .youtube-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #ff0000;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            margin-top: 5px;
+            transition: opacity 0.2s;
+        }
+        .youtube-btn:hover { opacity: 0.9; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo-container">
+            <div class="logo-circle">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 12,2A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12C4,14.42 5.08,16.59 6.78,18L15,9.78C14.54,9.27 13.81,9 13,9A3,3 0 0,0 10,12A1,1 0 0,1 8,12A5,5 0 0,1 13,7C14.47,7 15.76,7.64 16.64,8.65L18.42,6.87C16.92,5.1 14.58,4 12,4Z" />
+                </svg>
+            </div>
+            <div class="brand-name">LingoVerse Portal</div>
+        </div>
+
+        <div class="nav-menu">
+            <div class="nav-item active" id="nav-home-btn" onclick="loadDashboard()"><span>🏠</span> Home / Dashboard</div>
+            <div class="nav-item"><span>📂</span> Middle School Grades</div>
+            <div class="nav-sub-list">
+                <div class="nav-sub-item" id="side-5" onclick="selectClass(5)">5th Grade Units</div>
+                <div class="nav-sub-item" id="side-6" onclick="selectClass(6)">6th Grade Units</div>
+                <div class="nav-sub-item" id="side-7" onclick="selectClass(7)">7th Grade Units</div>
+                <div class="nav-sub-item" id="side-8" onclick="selectClass(8)">8th Grade Units</div>
+            </div>
+            <div class="nav-item" id="nav-primary-btn" onclick="togglePrimarySchoolMenu()"><span>🏫</span> Primary School 👇</div>
+            <div class="nav-sub-list hidden" id="primary-school-sublist">
+                <div class="nav-sub-item" id="side-2" onclick="selectClass(2)">2nd Grade Units</div>
+                <div class="nav-sub-item" id="side-3" onclick="selectClass(3)">3rd Grade Units</div>
+                <div class="nav-sub-item" id="side-4" onclick="selectClass(4)">4th Grade Units</div>
+            </div>
+        </div>
+
+        <div class="toggle-container">
+            <span style="font-size: 13px; font-weight: 600;">Night / Day Mode</span>
+            <label class="switch">
+                <input type="checkbox" id="night-mode-toggle" onchange="toggleNightMode()">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="sidebar-footer">
+            PORTAL FOUNDER:<br>MİRAY ALTUN
+        </div>
+    </div>
+
+    <div class="wrapper">
+        
+        <div class="main-content">
+            
+            <div class="welcome-card">
+                <div class="welcome-text">
+                    <h2>Good Afternoon!</h2>
+                    <p>Welcome back! Explore the world of school English activities and word leagues.</p>
+                </div>
+                <img class="welcome-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='40' r='25' fill='%2300a896'/><rect x='20' y='75' width='60' height='30' rx='15' fill='%23028090'/></svg>">
+            </div>
+
+            <div class="promo-banner">
+                <div>
+                    <div class="promo-title">Fill Out the Form Now</div>
+                    <p style="margin:5px 0 0 0; opacity:0.9; font-size:14px;">Click here to get detailed information about curriculum materials and latest news updates.</p>
+                </div>
+                <button class="promo-btn" onclick="alert('Form simulation launched!')">Campaign</button>
+            </div>
+
+            <div class="section-header">
+                <span id="archive-title">6th Grade Word Archive</span>
+                <span style="color:#028090; font-size:13px; cursor:pointer;">See All &rsaquo;</span>
+            </div>
+            
+            <div class="scroll-container" id="horizontal-scroll-box">
+                </div>
+
+            <div class="content-card-box" id="unit-selection-zone">
+                <h3 id="grid-title" style="margin-top:0; margin-bottom:15px; color:#2c3e50; font-size:18px;">6th Grade - Unit Selection</h3>
+                
+                <div class="unit-grid" id="main-unit-grid">
+                    </div>
+            </div>
+
+            <div class="content-card-box hidden" id="study-panel-zone">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #eef2f5; padding-bottom:10px; margin-bottom:15px;">
+                    <h3 id="study-title" style="margin:0; color:#028090;">Unit Preparation & Study Guide</h3>
+                    <button onclick="loadDashboard()" style="background:#e74c3c; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold;">Go Back</button>
+                </div>
+                
+                <div class="study-zone">
+                    <div class="study-block">
+                        <h4>📌 Vocabulary Lecture (Extended Word List)</h4>
+                        <p id="study-desc-words" style="font-weight: 600; color: #2c3e50;">Loading words...</p>
+                    </div>
+                    <div class="study-block">
+                        <h4>💡 Grammar & Practice Notes</h4>
+                        <p id="study-desc-grammar">Loading grammar rules...</p>
+                    </div>
+                    <div class="study-block">
+                        <h4>📺 Video Lesson Support (YouTube)</h4>
+                        <p style="margin-bottom:10px;">Watch the full curriculum animated summary video for this specific unit:</p>
+                        <a href="#" target="_blank" class="youtube-btn" id="study-youtube-link">🔺 Watch Unit Video on YouTube</a>
+                    </div>
+                    
+                    <button class="action-btn" id="start-game-directly-btn" style="padding:15px; font-size:15px; margin-top:10px; background-color: #2b9348;">👍 I Understood! Let's Start Practice Game!</button>
+                </div>
+            </div>
+
+            <div class="content-card-box hidden" id="quiz-playable-zone">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #eef2f5; padding-bottom:10px; margin-bottom:15px;">
+                    <h3 id="quiz-title" style="margin:0; color:#028090;">Vocabulary Arena Match</h3>
+                    <button onclick="loadDashboard()" style="background:#e74c3c; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold;">Go Back to Dashboard</button>
+                </div>
+                
+                <div class="game-zone">
+                    <p style="font-weight: bold; font-size: 14px; color: #7f8c8d; margin-top: 0;">Match the correct translation:</p>
+                    <h2 style="margin: 10px 0 20px 0; color: #2c3e50; font-size: 32px;" id="quiz-main-word">Word</h2>
+                    <div id="quiz-options-container">
+                        </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-panel">
+            
+            <div class="panel-widget" style="padding: 15px;">
+                <button class="meb-header-btn" onclick="window.open('https://www.meb.gov.tr', '_blank')">🌐 T.C. MİLLÎ EĞİTİM BAKANLIĞI</button>
+                
+                <div class="ataturk-showcase">
+                    <img class="ataturk-avatar" src="https://www.meb.gov.tr/meb_iys_dosyalar/2016_10/25114251_ataturk.jpg" alt="Mustafa Kemal Atatürk">
+                    <div class="ataturk-quote">"The rising new generation, the future is yours. We founded the Republic, you are the ones to elevate and sustain it."</div>
+                </div>
+            </div>
+
+            <div class="panel-widget">
+                <div class="level-selector-title">
+                    <span>Change Portal Grade</span>
+                    <span style="color:#00a896; font-weight: bold;" id="right-current-level">Level 6</span>
+                </div>
+                <div class="level-row">
+                    <button class="level-btn" id="lbl-5" onclick="selectClass(5)">Level 5</button>
+                    <button class="level-btn active" id="lbl-6" onclick="selectClass(6)">Level 6</button>
+                </div>
+                <div class="level-row">
+                    <button class="level-btn" id="lbl-7" onclick="selectClass(7)">Level 7</button>
+                    <button class="level-btn" id="lbl-8" onclick="selectClass(8)">Level 8</button>
+                </div>
+
+                <a href="#" target="_blank" class="eba-resource-box" id="orange-book-link">
+                    <div class="eba-badge-logo">📖</div>
+                    <div>
+                        <div style="font-weight:bold; font-size:14px;">MEB Books Archive</div>
+                        <div style="font-size:11px; opacity:0.9;">Open current level full digital book</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="panel-widget" style="background: none; padding: 0; box-shadow: none;">
+                <div class="footer-license-box">
+                    LingoVerse Portal Application Hub<br>
+                    <span style="font-weight: normal; opacity: 0.8; font-size: 11px;">Portal Founder: Miray Altun</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const database = {
+            2: {
+                bookUrl: "https://ogmmateryal.eba.gov.tr/",
+                youtube: "https://www.youtube.com/results?search_query=2.+s%C4%B1n%C4%B1f+ingilizce+",
+                units: [
+                    { name: "Unit 1: Words", icon: "🔤", studyWords: "Cake: Kek\nDoctor: Doktor\nHotel: Otel\nTrain: Tren\nVideo: Video\nZebra: Zebra", studyGrammar: "English words used commonly in our daily lives.", pool: [{w:"Cake", a:"Kek", o:["Su", "Tren"]}, {w:"Doctor", a:"Doktor", o:["Polis", "Öğretmen"]}] },
+                    { name: "Unit 2: Friends", icon: "👫", studyWords: "Hello: Merhaba\nGoodbye: Hoşçakal\nName: İsim\nFriend: Arkadaş\nThank you: Teşekkür ederim", studyGrammar: "Basic greeting commands:\n- Hello! What is your name?\n- My name is Ali.", pool: [{w:"Hello", a:"Merhaba", o:["Güle güle", "Lütfen"]}, {w:"Goodbye", a:"Hoşçakal", o:["Teşekkürler", "Evet"]}] },
+                    { name: "Unit 3: In the Classroom", icon: "🎒", studyWords: "Book: Kitap\nPen: Kalem\nDesk: Sıra\nTeacher: Öğretmen\nDoor: Kapı\nWindow: Pencere", studyGrammar: "Simple classroom objects identification.", pool: [{w:"Book", a:"Kitap", o:["Silgi", "Masa"]}, {w:"Pen", a:"Kalem", o:["Sıra", "Kapı"]}] },
+                    { name: "Unit 4: Numbers", icon: "🔢", studyWords: "One: Bir\nTwo: İki\nThree: Üç\nFour: Dört\nFive: Beş\nSix: Altı\nSeven: Yedi\nEight: Sekiz\nNine: Dokuz\nTen: On", studyGrammar: "Counting things up to 10:\n- How many books? Three books.", pool: [{w:"Five", a:"Beş", o:["Dört", "Altı"]}, {w:"Ten", a:"On", o:["Bir", "Yedi"]}] },
+                    { name: "Unit 5: Colors", icon: "🎨", studyWords: "Red: Kırmızı\nBlue: Mavi\nGreen: Yeşil\nYellow: Sarı\nPink: Pembe\nBlack: Siyah\nWhite: Beyaz", studyGrammar: "Describing product colors:\n- What color is it? It is red.", pool: [{w:"Blue", a:"Mavi", o:["Kırmızı", "Sarı"]}, {w:"Green", a:"Yeşil", o:["Pembe", "Siyah"]}] },
+                    { name: "Unit 6: At the Playground", icon: "🛝", studyWords: "Slide: Kaydırak\nSwing: Salıncak\nJump: Atlamak\nRun: Koşmak\nDance: Dans etmek", studyGrammar: "Expressing basic playground verbs.", pool: [{w:"Slide", a:"Kaydırak", o:["Salıncak", "Top"]}, {w:"Run", a:"Koşmak", o:["Uyumak", "Oturmak"]}] },
+                    { name: "Unit 7: Body Parts", icon: "🙋", studyWords: "Eye: Göz\nEar: Kulak\nHair: Saç\nMouth: Ağız\nNose: Burun\nHand: El\nFoot: Ayak", studyGrammar: "Pointing and naming body layout points.", pool: [{w:"Eye", a:"Göz", o:["Kulak", "Burun"]}, {w:"Hand", a:"El", o:["Ayak", "Ağız"]}] },
+                    { name: "Unit 8: Pets", icon: "🐱", studyWords: "Cat: Kedi\nDog: Köpek\nBird: Kuş\nFish: Balık\nRabbit: Tavşan\nFrog: Kurbağa", studyGrammar: "Basic home animal characters.", pool: [{w:"Cat", a:"Kedi", o:["Köpek", "Kuş"]}, {w:"Fish", a:"Balık", o:["Tavşan", "Kurbağa"]}] },
+                    { name: "Unit 9: Fruit", icon: "🍎", studyWords: "Apple: Elma\nBanana: Muz\nOrange: Portakal\nMelon: Kavun\nLemon: Limon\nGrape: Üzüm", studyGrammar: "Expressing basic fruit likes:\n- I like apples.", pool: [{w:"Apple", a:"Elma", o:["Muz", "Limon"]}, {w:"Banana", a:"Muz", o:["Portakal", "Kavun"]}] },
+                    { name: "Unit 10: Animals", icon: "🦁", studyWords: "Lion: Aslan\nElephant: Fil\nMonkey: Maymun\nBear: Ayı\nSnake: Yılan\nCamel: Deve", studyGrammar: "Big zoo animals names.", pool: [{w:"Lion", a:"Aslan", o:["Fil", "Maymun"]}, {w:"Elephant", a:"Fil", o:["Ayı", "Yılan"]}] }
+                ]
+            },
+            3: {
+                bookUrl: "https://ogmmateryal.eba.gov.tr/",
+                youtube: "https://www.youtube.com/results?search_query=3.+s%C4%B1n%C4%B1f+ingilizce+",
+                units: [
+                    { name: "Unit 1: Greetings", icon: "👋", studyWords: "Good morning: Günaydın\nGood afternoon: Tünaydın\nGood evening: İyi akşamlar\nHow are you: Nasılsın?\nI am fine: İyiyim", studyGrammar: "Formal daily time greetings phrases.", pool: [{w:"Good morning", a:"Günaydın", o:["Tünaydın", "İyi geceler"]}] },
+                    { name: "Unit 2: My Family", icon: "👨‍👩‍👧‍👦", studyWords: "Mother: Anne\nFather: Baba\nBrother: Erkek kardeş\nSister: Kız kardeş\nGrandfather: Dede\nGrandmother: Anneanne/Babaanne", studyGrammar: "Introducing family:\n- This is my mother.", pool: [{w:"Mother", a:"Anne", o:["Baba", "Dede"]}] },
+                    { name: "Unit 3: People I Love", icon: "❤️", studyWords: "Short: Kısa\nTall: Uzun\nFat: Şişman\nSlim: Zayıf\nOld: Yaşlı\nYoung: Genç", studyGrammar: "Describing close friends physical attributes.", pool: [{w:"Tall", a:"Uzun", o:["Kısa", "Genç"]}] },
+                    { name: "Unit 4: Feelings", icon: "😊", studyWords: "Happy: Mutlu\nSad: Üzgün\nAngry: Kızgın\nSurprised: Şaşırmış\nTired: Yorgun\nHungry: Aç", studyGrammar: "Asking emotional states:\n- How do you feel? I am happy.", pool: [{w:"Happy", a:"Mutlu", o:["Üzgün", "Kızgın"]}] },
+                    { name: "Unit 5: Toys and Games", icon: "🧸", studyWords: "Doll: Oyuncak bebek\nTeddy bear: Oyuncak ayı\nBlocks: Bloklar\nBall: Top\nBike: Bisiklet", studyGrammar: "Talking about counts and owns:\n- I have two red balls.", pool: [{w:"Doll", a:"Oyuncak bebek", o:["Top", "Uçak"]}] },
+                    { name: "Unit 6: My House", icon: "🏠", studyWords: "Bedroom: Yatak odası\nBathroom: Banyo\nKitchen: Mutfak\nLiving room: Oturma odası\nGarage: Garaj", studyGrammar: "Locating home objects structures.", pool: [{w:"Kitchen", a:"Mutfak", o:["Banyo", "Bahçe"]}] },
+                    { name: "Unit 7: In My City", icon: "🏙️", studyWords: "Park: Park\nZoo: Hayvanat bahçesi\nMuseum: Müze\nStreet: Sokak\nCafe: Kafe", studyGrammar: "Expressing basic places structures.", pool: [{w:"Zoo", a:"Hayvanat bahçesi", o:["Müze", "Sokak"]}] },
+                    { name: "Unit 8: Transportation", icon: "🚗", studyWords: "Car: Araba\nBus: Otobüs\nPlane: Uçak\nShip: Gemi\nHelicopter: Helikopter", studyGrammar: "Asking vehicles options:\n- How can I go? By bus.", pool: [{w:"Plane", a:"Uçak", o:["Gemi", "Araba"]}] },
+                    { name: "Unit 9: Weather", icon: "☁️", studyWords: "Sunny: Güneşli\nRainy: Yağmurlu\nSnowy: Karlı\nWindy: Rüzgarlı\nHot: Sıcak\nCold: Soğuk", studyGrammar: "Weather inquiries:\n- How is the weather? It is snowy.", pool: [{w:"Sunny", a:"Güneşli", o:["Karlı", "Yağmurlu"]}] },
+                    { name: "Unit 10: Nature", icon: "🦋", studyWords: "Tree: Ağaç\nFlower: Çiçek\nBird: Kuş\nLadybird: Uğur böceği\nRiver: Nehir", studyGrammar: "Expressing nature species identities.", pool: [{w:"Flower", a:"Çiçek", o:["Ağaç", "Nehir"]}] }
+                ]
+            },
+            4: {
+                bookUrl: "https://ogmmateryal.eba.gov.tr/",
+                youtube: "https://www.youtube.com/results?search_query=4.+s%C4%B1n%C4%B1f+ingilizce+",
+                units: [
+                    { name: "Unit 1: Classroom Rules", icon: "📐", studyWords: "Clean the board: Tahtayı sil\nOpen the window: Pencereyi aç\nTurn right: Sağa dön\nStand up: Ayağa kalk\nSit down: Otur", studyGrammar: "Imperative classroom commands requests.", pool: [{w:"Stand up", a:"Ayağa kalk", o:["Otur", "Tahtayı sil"]}] },
+                    { name: "Unit 2: Nationality", icon: "🌍", studyWords: "Turkey: Türkiye\nTurkish: Türk\nGermany: Almanya\nGerman: Alman\nBritain: İngiltere\nEnglish: İngiliz", studyGrammar: "Talking about origin and citizenship locations.", pool: [{w:"Turkey", a:"Türkiye", o:["Fransa", "İtalya"]}] },
+                    { name: "Unit 3: Cartoon Characters", icon: "🦸", studyWords: "Fly: Uçmak\nRide a bike: Bisiklete binme\nSwim: Yüzmek\nJump high: Yükseğe zıplamak\nRead: Okumak", studyGrammar: "Abilities using 'Can / Cannot' limits.", pool: [{w:"Fly", a:"Uçmak", o:["Koşmak", "Yüzmek"]}] },
+                    { name: "Unit 4: Free Time", icon: "🧩", studyWords: "Play chess: Satranç oynamak\nLearning English: İngilizce öğrenmek\nDrawing: Resim çizmek\nSinging: Şarkı söylemek", studyGrammar: "Expressing leisure continuous verbs likes.", pool: [{w:"Drawing", a:"Resim çizmek", o:["Şarkı söylemek", "Koşmak"]}] },
+                    { name: "Unit 5: My Day", icon: "⏰", studyWords: "Wake up: Uyanmak\nHave breakfast: Kahvaltı yapmak\nGo to school: Okula gitmek\nDo homework: Ödev yapmak", studyGrammar: "Sequencing time frameworks actions daily.", pool: [{w:"Wake up", a:"Uyanmak", o:["Uyumak", "Yemek"]}] },
+                    { name: "Unit 6: Fun Science", icon: "🧪", studyWords: "Experiment: Deney\nMix: Karıştırmak\nTube: Tüp\nFold: Katlamak\nCut: Kesmek", studyGrammar: "Scientific action verb guidelines.", pool: [{w:"Experiment", a:"Deney", o:["Oyun", "Resim"]}] },
+                    { name: "Unit 7: Jobs", icon: "🧑‍⚕️", studyWords: "Doctor: Doktor\nTeacher: Öğretmen\nFarmer: Çiftçi\nFireman: İtfaiyeci\nChef: Aşçı", studyGrammar: "Work location details mapping questions.", pool: [{w:"Farmer", a:"Çiftçi", o:["Aşçı", "Doktor"]}] },
+                    { name: "Unit 8: My Clothes", icon: "👕", studyWords: "T-shirt: Tişört\nTrousers: Pantolon\nDress: Elbise\nShoes: Ayakkabı\nHat: Şapka\nJacket: Ceket", studyGrammar: "Seasonal outfit preference adjustments.", pool: [{w:"Shoes", a:"Ayakkabı", o:["Şapka", "Ceket"]}] },
+                    { name: "Unit 9: My Friends", icon: "👦", studyWords: "Freckles: Çiller\nBlond hair: Sarışın saç\nDark hair: Siyah/Koyu saç\nGlasses: Gözlük", studyGrammar: "Describing face layout details structures.", pool: [{w:"Glasses", a:"Gözlük", o:["Şapka", "Kemer"]}] },
+                    { name: "Unit 10: Food and Drinks", icon: "🍕", studyWords: "Pizza: Pizza\nMilk: Süt\nWater: Su\nCupcake: Kek\nCheese: Peynir\nApple juice: Elma suyu", studyGrammar: "Offering item suggestions formats.", pool: [{w:"Milk", a:"Süt", o:["Su", "Kola"]}] }
+                ]
+            },
+            5: {
+                bookUrl: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/ingilizce/5/unite1.pdf",
+                youtube: "https://www.youtube.com/results?search_query=5.+s%C4%B1n%C4%B1f+ingilizce+",
+                units: [
+                    { name: "Unit 1: Hello!", icon: "👋", studyWords: "Hello: Merhaba\nName: İsim\nAge: Yaş\nCountry: Ülke\nLanguage: Dil\nClassmate: Sınıf arkadaşı", studyGrammar: "Talking about nationalities and countries:\n- Where are you from? I am from Turkey.", pool: [{w:"Hello", a:"Merhaba", o:["Hoşçakal", "Kitap"]}] },
+                    { name: "Unit 2: My Town", icon: "🏡", studyWords: "Hospital: Hastane\nSchool: Okul\nBank: Banka\nLibrary: Kütüphane\nBakery: Fırın\nPharmacy: Eczane", studyGrammar: "Giving directions:\n- Where is the bakery? It is next to the school.", pool: [{w:"Library", a:"Kütüphane", o:["Fırın", "Banka"]}] },
+                    { name: "Unit 3: Games and Hobbies", icon: "🧩", studyWords: "Chess: Satranç\nHopscotch: Saklambaç\nOrigami: Kağıt katlama\nCamping: Kamp yapmak", studyGrammar: "Expressing abilities:\n- Can you do origami? Yes, I can.", pool: [{w:"Chess", a:"Satranç", o:["Dama", "Futbol"]}] },
+                    { name: "Unit 4: My Daily Routine", icon: "⏰", studyWords: "Wake up: Uyanmak\nWash hands: Elleri yıkamak\nBrush teeth: Diş fırçalamak\nGo to bed: Yatmak", studyGrammar: "Simple Present Tense frameworks actions.", pool: [{w:"Brush teeth", a:"Diş fırçalamak", o:["Giyinmek", "Yıkamak"]}] },
+                    { name: "Unit 5: Health", icon: "🤒", studyWords: "Flu: Grip\nCough: Öksürük\nHeadache: Baş ağrısı\nMedicine: İlaç\nTissue: Mendil", studyGrammar: "Giving advice using 'Should':\n- You should take some medicine.", pool: [{w:"Headache", a:"Baş ağrısı", o:["Karı ağrısı", "Ateş"]}] },
+                    { name: "Unit 6: Movies", icon: "🎬", studyWords: "Comedy: Komedi\nAnimation: Çizgi film\nHorror: Korku filmi\nBoring: Sıkıcı", studyGrammar: "Expressing film thoughts structures.", pool: [{w:"Boring", a:"Sıkıcı", o:["Eğlenceli", "Hızlı"]}] },
+                    { name: "Unit 7: Party Time", icon: "🥳", studyWords: "Birthday: Doğum günü\nInvitation card: Davetiye\nCandles: Mumlar\nGift: Hediye", studyGrammar: "Making party layout adjustments requests.", pool: [{w:"Gift", a:"Hediye", o:["Mum", "Balon"]}] },
+                    { name: "Unit 8: Fitness", icon: "🏃", studyWords: "Hiking: Doğa yürüyüşü\nCycling: Bisiklete binme\nWorkout: Egzersiz\nLet's: Hadi", studyGrammar: "Suggestions:\n- Let's go cycling this afternoon!", pool: [{w:"Cycling", a:"Bisiklete binme", o:["Koşma", "Yüzme"]}] },
+                    { name: "Unit 9: Animal Shelter", icon: "🐾", studyWords: "Shelter: Barınak\nAdopt: Sahiplenmek\nFeed: Beslemek\nBark: Havlamak", studyGrammar: "Present Continuous actions descriptions.", pool: [{w:"Shelter", a:"Barınak", o:["Ev", "Bahçe"]}] },
+                    { name: "Unit 10: Festivals", icon: "🎆", studyWords: "Parade: Geçit töreni\nFirework: Havai fişek\nTraditional: Geleneksel", studyGrammar: "Cultural holiday event descriptions.", pool: [{w:"Parade", a:"Geçit töreni", o:["Düğün", "Seçim"]}] }
+                ]
+            },
+            6: {
+                bookUrl: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/ingilizce/6/unite1.pdf",
+                youtube: "https://www.youtube.com/results?search_query=6.+s%C4%B1n%C4%B1f+ingilizce+",
+                units: [
+                    { name: "Unit 1: Life", icon: "🎮", studyWords: "Routine: Günlük işler\nDiary: Günlük tutmak\nTake care: İlgilenmek\nTraditional: Geleneksel\nVisit grandparents: Büyükleri ziyaret etmek", studyGrammar: "Telling the time & Simple Present Tense:\n- What time is it? It is a quarter past ten.", pool: [{w:"Routine", a:"Günlük İşler", o:["Tatil", "Yemek"]}, {w:"Nap", a:"Kestirmek", o:["Koşmak", "Yemek"]}] },
+                    { name: "Unit 2: Yummy Breakfast", icon: "🥞", studyWords: "Yummy: Lezzetli\nNutritional: Besleyici\nJunk Food: Abur cubur\nCroissant: Kruvasan\nCereal: Gevrek\nHealthy: Sağlıklı", studyGrammar: "Likes/dislikes and requests:\n- Can I have some olives, please?", pool: [{w:"Yummy", a:"Lezzetli", o:["Kötü", "Tuzlu"]}, {w:"Healthy", a:"Sağlıklı", o:["Zararlı", "Tatlı"]}] },
+                    { name: "Unit 3: Downtown", icon: "🏙️", studyWords: "Skyscraper: Gökdelen\nTraffic jam: Trafik sıkışıklığı\nHometown: Memleket\nQuiet: Sessiz\nCrowded: Kalabalık", studyGrammar: "Present Continuous Tense & Comparatives:\n- Downtown is more crowded than a village.", pool: [{w:"Skyscraper", a:"Gökdelen", o:["Köy evi", "Çiftlik"]}, {w:"Crowded", a:"Kalabalık", o:["Tenha", "Temiz"]}] },
+                    { name: "Unit 4: Weather & Emotions", icon: "🌤️", studyWords: "Moody: Aksi\nAnxious: Endişeli\nFreezing: Dondurucu\nRainy: Yağmurlu\nScared: Korkmuş", studyGrammar: "Asking about weather and feelings:\n- How do you feel on rainy days? I feel moody.", pool: [{w:"Moody", a:"Karamsar/Aksi", o:["Mutlu", "Enerjik"]}, {w:"Freezing", a:"Dondurucu soğuk", o:["Sıcak", "Ilık"]}] },
+                    { name: "Unit 5: At the Fair", icon: "🎡", studyWords: "Ghost Train: Korku Treni\nRoller Coaster: Hız Treni\nBumper Cars: Çarpışan Arabalar\nCarousel: Atlıkarınca\nThrilling: Heyecan verici", studyGrammar: "Expressing opinions about fairs:\n- I think roller coasters are thrilling.", pool: [{w:"Ghost Train", a:"Korku Treni", o:["Dönme Dolap", "Çarpışan Araba"]}] },
+                    { name: "Unit 6: Occupations", icon: "🧑‍💼", studyWords: "Architect: Mimar\nTailor: Terzi\nEngineer: Mühendis\nHairdresser: Kuaför\nLawyer: Avukat", studyGrammar: "Professions and abilities details.", pool: [{w:"Architect", a:"Mimar", o:["Doktor", "Öğretmen"]}] },
+                    { name: "Unit 7: Holidays", icon: "🏖️", studyWords: "Sightseeing: Şehir turu\nSkiing: Kayak\nSeaside: Deniz kenarı\nAccommodation: Konaklama\nClimb: Tırmanmak", studyGrammar: "Simple Past Tense Introduction framework.", pool: [{w:"Sightseeing", a:"Şehir Turu", o:["Dalış", "Kamp"]}] },
+                    { name: "Unit 8: Bookworms", icon: "📚", studyWords: "Bookworm: Kitap kurdu\nLibrary: Kütüphane\nNovel: Roman\nPoetry: Şiir\nBorrow: Ödünç almak", studyGrammar: "Past locations and matching actions data.", pool: [{w:"Bookworm", a:"Kitap Kurdu", o:["Kütüphaneci", "Yazar"]}] },
+                    { name: "Unit 9: Saving the Planet", icon: "🌍", studyWords: "Pollution: Kirlilik\nRecycle: Geri dönüşüm\nSave energy: Enerji tasarrufu\nPlant trees: Ağaç dikmek", studyGrammar: "Obligations using 'Must / Mustn't' metrics.", pool: [{w:"Recycle", a:"Geri Dönüştürmek", o:["Kirletmek", "Eritmek"]}] },
+                    { name: "Unit 10: Democracy", icon: "🗳️", studyWords: "Election: Seçim\nCandidate: Aday\nVote: Oy vermek\nBallot box: Oy sandığı\nPresident: Başkan", studyGrammar: "Elections procedures mapping notes.", pool: [{w:"Election", a:"Seçim", o:["Toplantı", "Ders"]}] }
+                ]
+            },
+            7: {
+                bookUrl: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/ingilizce/7/unite1.pdf",
+                youtube: "https://www.youtube.com/results?search_query=7.+s%C4%B1n%C4%B1f+ingilizce+",
+                units: [
+                    { name: "Unit 1: Appearance & Personality", icon: "🧑‍🎨", studyWords: "Generous: Cömert\nStubborn: İnatçı\nOutgoing: Sosyal\nPunctual: Dakik\nForgetful: Unutkan", studyGrammar: "Describing appearance and character structures.", pool: [{w:"Generous", a:"Cömert", o:["Cimri", "Bencil"]}] },
+                    { name: "Unit 2: Sports", icon: "⚽", studyWords: "Train: Antrenman\nEquipment: Ekipman\nIndoor: Kapalı alan\nMedal: Madalya\nDraw: Berabere", studyGrammar: "Adverbs of frequency configurations stats.", pool: [{w:"Train", a:"Antrenman Yapmak", o:["Koşmak", "Yenilmek"]}] },
+                    { name: "Unit 3: Biographies", icon: "📜", studyWords: "Born: Doğmak\nDie: Ölmek\nGraduate: Mezun olmak\nSuccess: Başarı\nBrilliant: Parlak/Zeki", studyGrammar: "Simple Past Tense with regular/irregular structures.", pool: [{w:"Graduate", a:"Mezun olmak", o:["Okula başlamak", "Sınıfta kalmak"]}] },
+                    { name: "Unit 4: Wild Animals", icon: "🦁", studyWords: "Mammal: Memeli\nReptile: Sürüngen\nExtinct: Nesli tükenmiş\nHunter: Avcı\nCage: Kafes", studyGrammar: "Describing wildlife and ecosystems layout.", pool: [{w:"Extinct", a:"Nesli tükenmiş", o:["Yaşayan", "Evcil"]}] },
+                    { name: "Unit 5: Television", icon: "📺", studyWords: "Sitcom: Komedi dizisi\nDocumentary: Belgesel\nCommercial: Reklam\nReality show: Gerçeklik programı", studyGrammar: "Preferences with TV programs using Prefer.", pool: [{w:"Documentary", a:"Belgesel", o:["Çizgi film", "Haber"]}] },
+                    { name: "Unit 6: Celebrations", icon: "🎉", studyWords: "Wrap: Paketlemek\nDecorate: Süslemek\nGuest list: Misafir listesi\nBeverage: İçecek", studyGrammar: "Quantifiers (A few, a little, some, any) parameters.", pool: [{w:"Wrap", a:"Paketlemek/Sarmak", o:["Açmak", "Yırtmak"]}] },
+                    { name: "Unit 7: Dreams", icon: "🔮", studyWords: "Predict: Tahmin etmek\nCareer: Kariyer\nExcellent: Harika\nTravel: Seyahat etmek", studyGrammar: "Future predictions using 'Will / Won't' frameworks.", pool: [{w:"Predict", a:"Tahmin etmek", o:["Unutmak", "Hatırlamak"]}] },
+                    { name: "Unit 8: Public Buildings", icon: "🏛️", studyWords: "Amusement park: Lunapark\nMunicipality: Belediye\nArt gallery: Sanat galerisi\nGovernor: Vali", studyGrammar: "Expressing purpose using 'To infinitive'.", pool: [{w:"Municipality", a:"Belediye", o:["Okul", "Hastane"]}] },
+                    { name: "Unit 9: Environment", icon: "🌲", studyWords: "Global warming: Küresel ısınma\nDeforestation: Ormansızlaşma\nEco-friendly: Çevre dostu\nWaste: Atık", studyGrammar: "Suggestions with 'Should/Shouldnt' data guidance.", pool: [{w:"Deforestation", a:"Ormansızlaşma", o:["Ağaçlandırma", "Kirlilik"]}] },
+                    { name: "Unit 10: Planets", icon: "🪐", studyWords: "Orbit: Yörünge\nGravity: Yerçekimi\nSpace shuttle: Uzay mekiği\nSatellite: Uydu", studyGrammar: "Making comparisons of solar structures.", pool: [{w:"Orbit", a:"Yörünge", o:["Yıldız", "Gezegen"]}] }
+                ]
+            },
+            8: {
+                bookUrl: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/ingilizce/8/unite1.pdf",
+                youtube: "https://www.youtube.com/results?search_query=8.+s%C4%B1n%C4%B1f+ingilizce+",
+                units: [
+                    { name: "Unit 1: Friendship", icon: "🤝", studyWords: "Buddy: Kanka\nBack up: Destek olmak\nCount on: Güvenmek\nSecret: Sır\nHave common interests: Ortak yönleri olmak", studyGrammar: "Accepting/Refusing Invitations layout rules.", pool: [{w:"Buddy", a:"Kanka/Yakın Arkadaş", o:["Düşman", "Yabancı"]}] },
+                    { name: "Unit 2: Teen Life", icon: "🎧", studyWords: "Unbearable: Dayanılmaz\nTrendy: Modaya uygun\nFond of: Düşkün olmak\nCasual: Rahat\nTerrific: Harika", studyGrammar: "Expressing preferences with 'Prefer' data sets.", pool: [{w:"Unbearable", a:"Dayanılmaz", o:["Harika", "Eğlenceli"]}] },
+                    { name: "Unit 3: In the Kitchen", icon: "🍳", studyWords: "Chop: Doğramak\nDice: Küp küp kesmek\nBake: Fırında pişirmek\nIngredient: Malzeme\nRecipe: Tarif", studyGrammar: "Describing a process & Imperative recipes guides.", pool: [{w:"Chop", a:"Doğramak", o:["Haşlamak", "Süzmek"]}] },
+                    { name: "Unit 4: On the Phone", icon: "☎️", studyWords: "Hang up: Telefonu kapatmak\nHold on: Beklemek\nPick up: Telefonu açmak\nAvailable: Müsait", studyGrammar: "Phone conversations core sentence layouts.", pool: [{w:"Hang up", a:"Telefonu kapatmak", o:["Aramak", "Şarj etmek"]}] },
+                    { name: "Unit 5: The Internet", icon: "🌐", studyWords: "Upload: Yüklemek\nDownload: İndirmek\nAttachment: Dosya eki\nBrowser: Tarayıcı\nLog in: Giriş yapmak", studyGrammar: "Internet safety regulations parameters.", pool: [{w:"Upload", a:"Yüklemek", o:["Silmek", "Kopyalamak"]}] },
+                    { name: "Unit 6: Adventures", icon: "🪂", studyWords: "Paragliding: Yamaç paraşütü\nCaving: Mağaracılık\nFascinating: Büyüleyici\nRisk-taker: Risk alan", studyGrammar: "Expressing preferences and comparing extremes.", pool: [{w:"Paragliding", a:"Yamaç paraşütü", o:["Tırmanış", "Yüzme"]}] },
+                    { name: "Unit 7: Tourism", icon: "🏰", studyWords: "All-inclusive: Her şey dahil\nHistoric site: Tarihi yer\nArchitecture: Mimari\nSouvenir: Hediyelik eşya", studyGrammar: "Describing experiences (Present Perfect layout).", pool: [{w:"All-inclusive", a:"Her şey dahil", o:["Pahalı", "Sınırlı"]}] },
+                    { name: "Unit 8: Chores", icon: "🧹", studyWords: "Take out the garbage: Çöpü atmak\nDo the laundry: Çamaşır yıkamak\nMake the bed: Yatağı toplamak\nDuty: Görev", studyGrammar: "Expressing obligations (Must / Have to) charts.", pool: [{w:"Chores", a:"Ev işleri", o:["Ödevler", "Eğlenceler"]}] },
+                    { name: "Unit 9: Science", icon: "🧪", studyWords: "Conduct an experiment: Deney yapmak\nDiscovery: Keşif\nInvention: İcat\nHigh-tech: Yüksek teknoloji", studyGrammar: "Talking about scientific milestones structures.", pool: [{w:"Invention", a:"İcat", o:["Keşif", "Deney"]}] },
+                    { name: "Unit 10: Natural Forces", icon: "🌋", studyWords: "Earthquake: Deprem\nFlood: Sel\nAvalanche: Çığ\nLandslide: Heyelan", studyGrammar: "Talking about natural events and hazard results.", pool: [{w:"Earthquake", a:"Deprem", o:["Fırtına", "Çığ"]}] }
+                ]
+            }
+        };
+
+        let currentClass = 6;
+        let selectedUnitGlobal = null;
+        let currentPoolIndex = 0;
+
+        window.onload = function() {
+            selectClass(6); 
+        };
+
+        function toggleNightMode() {
+            const isNight = document.getElementById('night-mode-toggle').checked;
+            if (isNight) {
+                document.body.classList.add('night-mode');
+            } else {
+                document.body.classList.remove('night-mode');
+            }
+        }
+
+        function togglePrimarySchoolMenu() {
+            const sublist = document.getElementById('primary-school-sublist');
+            sublist.classList.toggle('hidden');
+        }
+
+        function selectClass(classNum) {
+            currentClass = classNum;
+            loadDashboard();
+
+            document.getElementById('archive-title').innerText = classNum + "th Grade Word Archive";
+            document.getElementById('grid-title').innerText = classNum + "th Grade - Unit Selection";
+            document.getElementById('right-current-level').innerText = "Level " + classNum;
+            document.getElementById('orange-book-link').href = database[classNum].bookUrl;
+
+            document.querySelectorAll('.nav-sub-item').forEach(item => item.classList.remove('active'));
+            if(document.getElementById('side-' + classNum)) {
+                document.getElementById('side-' + classNum).classList.add('active');
+            }
+
+            document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
+            const rightBtn = document.getElementById('lbl-' + classNum);
+            if (rightBtn) rightBtn.classList.add('active');
+
+            const scrollBox = document.getElementById('horizontal-scroll-box');
+            scrollBox.innerHTML = "";
+            const activeUnits = database[classNum].units;
+            
+            activeUnits.slice(0, 4).forEach((unite, idx) => {
+                scrollBox.innerHTML += `
+                    <div class="scroll-card">
+                        <div class="scroll-thumb"><span>${unite.icon}</span></div>
+                        <div class="scroll-title-text">${unite.name}</div>
+                        <button class="action-btn" onclick="openStudyZone(${idx})">Go to Activity</button>
+                    </div>
+                `;
+            });
+
+            const gridBox = document.getElementById('main-unit-grid');
+            gridBox.innerHTML = `<button class="grid-item special" onclick="alert('Exam Preparation Sets Loaded!')">EXAMS - EXAMS</button>`;
+            
+            activeUnits.forEach((unite, idx) => {
+                gridBox.innerHTML += `
+                    <button class="grid-item" onclick="openStudyZone(${idx})">${unite.name}</button>
+                `;
+            });
+
+            gridBox.innerHTML += `<button class="grid-item" onclick="window.open('${database[classNum].bookUrl}', '_blank')">Story Books</button>`;
+        }
+
+        function loadDashboard() {
+            document.getElementById('unit-selection-zone').classList.remove('hidden');
+            document.getElementById('study-panel-zone').classList.add('hidden');
+            document.getElementById('quiz-playable-zone').classList.add('hidden');
+        }
+
+        function openStudyZone(unitIndex) {
+            const unite = database[currentClass].units[unitIndex];
+            if (!unite) return;
+            
+            selectedUnitGlobal = unite;
+            currentPoolIndex = 0; 
+
+            document.getElementById('unit-selection-zone').classList.add('hidden');
+            document.getElementById('quiz-playable-zone').classList.add('hidden');
+            document.getElementById('study-panel-zone').classList.remove('hidden');
+
+            document.getElementById('study-title').innerText = unite.name + " - Portal Study System";
+            document.getElementById('study-desc-words').innerText = unite.studyWords;
+            document.getElementById('study-desc-grammar').innerText = unite.studyGrammar;
+
+            const searchKeyword = encodeURIComponent(currentClass + ". sınıf ingilizce " + unite.name);
+            document.getElementById('study-youtube-link').href = "https://www.youtube.com/results?search_query=" + searchKeyword;
+
+            document.getElementById('start-game-directly-btn').onclick = function() {
+                startInteractiveQuizLoop();
+            };
+        }
+
+        function startInteractiveQuizLoop() {
+            document.getElementById('study-panel-zone').classList.add('hidden');
+            document.getElementById('quiz-playable-zone').classList.remove('hidden');
+
+            const pool = selectedUnitGlobal.pool;
+            if (currentPoolIndex >= pool.length) {
+                currentPoolIndex = 0; 
+            }
+
+            const activeQuestion = pool[currentPoolIndex];
+            document.getElementById('quiz-main-word').innerText = activeQuestion.w;
+
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = "";
+
+            let selectorList = [{t: activeQuestion.a, correct: true}];
+            activeQuestion.o.forEach(wrong => {
+                selectorList.push({t: wrong, correct: false});
+            });
+
+            selectorList.sort(() => Math.random() - 0.5);
+
+            selectorList.forEach(opt => {
+                const button = document.createElement('button');
+                button.className = "quiz-option";
+                button.innerText = opt.t;
+                button.onclick = function() {
+                    if (opt.correct) {
+                        alert("🎉 Correct Answer! Moving to the next question.");
+                    } else {
+                        alert(`❌ Incorrect choice! True translation was: "${activeQuestion.a}"`);
+                    }
+                    currentPoolIndex++;
+                    startInteractiveQuizLoop();
+                };
+                optionsContainer.appendChild(button);
+            });
+        }
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
