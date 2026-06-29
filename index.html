@@ -1,593 +1,356 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miray Portal - İnteraktif Eğitim Platformu</title>
+    <title>Miray Portal - Interactive Learning Hub</title>
     <style>
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
         }
         body {
-            background-color: #f4f7f6;
+            background-color: #f0f4f8;
             margin: 0;
-            padding: 0;
             display: flex;
             min-height: 100vh;
-            color: #2c3e50;
+            color: #1a202c;
         }
-
-        /* GECE MODU AYARLARI */
         body.night-mode {
-            background-color: #111622;
-            color: #f1f5f9;
-        }
-        body.night-mode .sidebar {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            border-right: 1px solid #334155;
-        }
-        body.night-mode .card,
-        body.night-mode .main-box {
-            background-color: #1e293b;
-            color: #f1f5f9;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            border-color: #334155;
-        }
-        body.night-mode .grid-btn {
-            background-color: #334155;
-            color: #f1f5f9;
-        }
-        body.night-mode .grid-btn:hover {
-            background-color: #00adb5;
-        }
-        body.night-mode .word-badge {
-            background-color: #334155;
-            color: #f1f5f9;
+            background-color: #1a202c;
+            color: #f7fafc;
         }
 
-        /* SOL MENÜ (SIDEBAR) */
+        /* SIDEBAR */
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #00adb5 0%, #007a87 100%);
+            background: linear-gradient(180deg, #2c7a7b 0%, #285e61 100%);
             color: white;
             padding: 25px 15px;
             display: flex;
             flex-direction: column;
             position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 10;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            height: 100vh;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
         }
-        .school-logo-container {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 15px;
-        }
-        .school-title {
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            line-height: 1.4;
-            color: white;
-        }
-        .menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .sidebar h1 { font-size: 22px; text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px; }
         .menu-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 12px 15px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            margin-bottom: 10px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.2s;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
         }
-        .menu-link:hover, .menu-link.active {
-            background: white;
-            color: #007a87;
-        }
-        .sub-menu-list {
-            margin: 4px 0 8px 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .sub-menu-item {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 13.5px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        .sub-menu-item:hover, .sub-menu-item.active {
-            color: white;
-            background: rgba(255,255,255,0.15);
-            font-weight: bold;
-        }
-        
-        /* GECE MODU BUTONU */
-        .mode-toggle-area {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding-bottom: 15px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 15px;
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-        }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255,255,255,0.3);
-            transition: .4s;
-            border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px; width: 18px;
-            left: 4px; bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider { background-color: #f39c12; }
-        input:checked + .slider:before { transform: translateX(24px); }
+        .menu-link:hover { background: white; color: #2c7a7b; }
+        .sub-menu { margin-left: 20px; font-size: 14px; display: none; }
+        .sub-menu.active { display: block; }
+        .sub-item { padding: 5px 0; cursor: pointer; opacity: 0.8; }
+        .sub-item:hover { opacity: 1; font-weight: bold; }
 
-        .sidebar-footer {
-            font-size: 11px;
-            opacity: 0.9;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 10px;
-            font-weight: bold;
-        }
-
-        /* ANA İÇERİK ALANI */
-        .content-wrapper {
+        /* CONTENT */
+        .main-content {
             margin-left: 280px;
-            display: flex;
+            padding: 40px;
             width: calc(100% - 280px);
-            padding: 25px;
-            gap: 20px;
-        }
-        .main-pane {
-            flex: 3;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
         .card {
             background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid #eef2f5;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .welcome-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(135deg, #232931 0%, #11141a 100%);
-            color: white;
-        }
-        .welcome-box h2 { margin: 0; font-size: 26px; color: #00adb5; }
-        .welcome-box p { margin: 8px 0 0 0; opacity: 0.9; font-size: 15px; }
+        body.night-mode .card { background: #2d3748; border: 1px solid #4a5568; }
 
-        /* ÜNİTE VE DERS SEÇİM IZGARASI */
-        .grid-layout {
+        .intro-box h2 { color: #2c7a7b; margin-top: 0; }
+        .intro-box p { line-height: 1.6; font-size: 16px; }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .word-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 15px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
-        .grid-btn {
-            background-color: #f8f9fa;
-            color: #2c3e50;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid #e2e8f0;
-        }
-        .grid-btn:hover {
-            background-color: #00adb5;
-            color: white;
-            transform: translateY(-2px);
-            border-color: #00adb5;
-        }
-
-        /* KELİME LİSTESİ */
-        .words-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        .word-badge {
-            background-color: #f1f5f9;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            border: 1px solid #e2e8f0;
-        }
-        .word-badge span {
-            color: #00adb5;
-        }
-
-        /* OYUN ALANI VE BUTONLAR */
-        .game-box {
-            background-color: #f8f9fa;
-            border-left: 5px solid #27ae60;
-            padding: 20px;
+        .word-card {
+            background: #edf2f7;
+            padding: 12px;
             border-radius: 8px;
-            margin-top: 15px;
-        }
-        body.night-mode .game-box {
-            background-color: #242f41;
-        }
-        .sentence-prompt {
-            font-size: 18px;
+            text-align: center;
             font-weight: bold;
-            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
         }
-        .option-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        body.night-mode .word-card { background: #4a5568; border-color: #4a5568; }
+        .word-card span { display: block; color: #2c7a7b; font-size: 13px; margin-top: 4px; }
+
+        /* GAME */
+        .game-area {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 6px solid #38a169;
+            margin-top: 25px;
         }
+        body.night-mode .game-area { background: #232d3d; }
         .option-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
             background: white;
             border: 2px solid #e2e8f0;
-            padding: 12px 15px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
             text-align: left;
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 500;
         }
-        body.night-mode .option-btn {
-            background: #1e293b;
-            border-color: #334155;
-            color: white;
-        }
-        .option-btn:hover {
-            border-color: #27ae60;
-            background-color: #edfcf2;
-        }
-        body.night-mode .option-btn:hover {
-            background-color: #1c3d27;
-        }
-        .feedback {
-            margin-top: 12px;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
+        body.night-mode .option-btn { background: #2d3748; color: white; border-color: #4a5568; }
+        .option-btn:hover { border-color: #38a169; background: #f0fff4; }
+        body.night-mode .option-btn:hover { background: #1c3d27; }
+        
+        .mode-toggle { margin-top: auto; text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); }
         .hidden { display: none; }
+        .progress-bar { height: 12px; background: #e2e8f0; border-radius: 6px; margin-bottom: 20px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #38a169; width: 0%; transition: width 0.3s; }
+        .back-btn { padding: 12px 24px; background-color: #2c7a7b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; }
+        .back-btn:hover { background-color: #235e61; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="school-logo-container">
-            <div class="school-title">🚀 MİRAY PORTAL</div>
+        <h1>🚀 Miray Portal</h1>
+        <div class="menu-link" onclick="showHome()">🏠 Home</div>
+        
+        <div class="menu-link" onclick="toggleMenu('middle-menu')">📚 Middle School (5-8)</div>
+        <div id="middle-menu" class="sub-menu">
+            <div class="sub-item" onclick="loadGrade(5)">Grade 5</div>
+            <div class="sub-item" onclick="loadGrade(6)">Grade 6</div>
+            <div class="sub-item" onclick="loadGrade(7)">Grade 7</div>
+            <div class="sub-item" onclick="loadGrade(8)">Grade 8</div>
         </div>
 
-        <div class="menu-list">
-            <div class="menu-link active" id="nav-home" onclick="showDashboard()"><span>🏠</span> Ana Sayfa / Panel</div>
-            
-            <div class="menu-link"><span>📂</span> Ortaokul Kademeleri</div>
-            <div class="sub-menu-list">
-                <div class="sub-menu-item" id="side-5" onclick="selectGrade(5)">5. Sınıf Üniteleri</div>
-                <div class="sub-menu-item" id="side-6" onclick="selectGrade(6)">6. Sınıf Üniteleri</div>
-                <div class="sub-menu-item" id="side-7" onclick="selectGrade(7)">7. Sınıf Üniteleri</div>
-                <div class="sub-menu-item" id="side-8" onclick="selectGrade(8)">8. Sınıf Üniteleri</div>
-            </div>
-
-            <div class="menu-link" id="nav-primary" onclick="togglePrimaryMenu()"><span>🏫</span> İlkokul Kademeleri 👇</div>
-            <div class="sub-menu-list hidden" id="primary-menu-list">
-                <div class="sub-menu-item" id="side-2" onclick="selectGrade(2)">2. Sınıf Konuları</div>
-                <div class="sub-menu-item" id="side-3" onclick="selectGrade(3)">3. Sınıf Konuları</div>
-                <div class="sub-menu-item" id="side-4" onclick="selectGrade(4)">4. Sınıf Konuları</div>
-            </div>
+        <div class="menu-link" onclick="toggleMenu('primary-menu')">🏫 Primary School (2-4)</div>
+        <div id="primary-menu" class="sub-menu">
+            <div class="sub-item" onclick="loadGrade(2)">Grade 2</div>
+            <div class="sub-item" onclick="loadGrade(3)">Grade 3</div>
+            <div class="sub-item" onclick="loadGrade(4)">Grade 4</div>
         </div>
 
-        <div class="mode-toggle-area">
-            <span style="font-size: 13px; font-weight: 600;">Gece / Gündüz Modu</span>
-            <label class="switch">
-                <input type="checkbox" id="theme-slider" onchange="switchTheme()">
-                <span class="slider"></span>
+        <div class="mode-toggle">
+            <p>Night Mode</p>
+            <label style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                <input type="checkbox" onchange="toggleNightMode()" style="opacity:0; width:0; height:0;">
+                <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.3); transition: .4s; border-radius: 34px;"></span>
             </label>
         </div>
-
-        <div class="sidebar-footer">
-            SİTE KURUCUSU:<br>MİRAY ALTUN
-        </div>
+        <div style="font-size: 11px; text-align: center; margin-top: 20px; opacity: 0.9; font-weight: bold; letter-spacing: 1px;">CREATED BY MİRAY ALTUN</div>
     </div>
 
-    <div class="content-wrapper">
-        <div class="main-pane">
-            
-            <div class="card welcome-box">
-                <div>
-                    <h2>Miray Portal'a Hoş Geldiniz!</h2>
-                    <p>İnteraktif eğitim ve dil öğrenme portalındasınız. Kademeleri seçerek oyunlu kelime pratiklerine başlayabilirsiniz.</p>
-                </div>
-            </div>
+    <div class="main-content">
+        <div id="home-page" class="card intro-box">
+            <h2>Welcome to Miray Portal!</h2>
+            <p>Hi everyone! I am <b>Miray Altun</b>. Welcome to my brand new interactive English education platform. I designed this professional portal to make learning English online fun, engaging, and super effective for students.</p>
+            <p><b>About This Portal:</b> This platform is fully customized for elementary and middle school English curricula. Inside each grade section, you will find targeted vocabulary lists with translations, educational YouTube practice videos, and comprehensive 15-question gap-filling games to master your vocabulary skills perfectly.</p>
+            <p>To begin your study session, simply use the sidebar menu to select your grade, choose an available unit, and dive into the exercises. Enjoy practicing and good luck!</p>
+        </div>
 
-            <div class="card" id="selection-zone">
-                <h3 id="panel-title" style="margin-top:0; color:#00adb5;">Sınıf Seçiniz</h3>
-                <div class="grid-layout" id="unit-grid-box">
-                    <p style="grid-column: span 2;">Lütfen sol menüden çalışmak istediğiniz sınıf kademesini seçin.</p>
-                </div>
-            </div>
+        <div id="unit-selection" class="card hidden">
+            <h2 id="grade-title" style="color: #2c7a7b; margin-top:0;">Grade Units</h2>
+            <div id="unit-buttons" class="word-grid"></div>
+        </div>
 
-            <div class="card hidden" id="study-zone">
-                <h3 id="study-title" style="margin-top:0; color:#27ae60;">Ünite Detayları</h3>
+        <div id="study-page" class="hidden">
+            <div class="card">
+                <h2 id="current-unit-name" style="color: #2c7a7b; margin-top:0;">Unit Details</h2>
                 
-                <h4>📚 Ünite Kelimeleri</h4>
-                <div class="words-container" id="words-list"></div>
-
-                <h4>🎮 Cümle Tamamlama Oyunu</h4>
-                <div class="game-box">
-                    <div class="sentence-prompt" id="game-question">Soru yükleniyor...</div>
-                    <div class="option-container" id="game-options"></div>
-                    <div class="feedback" id="game-feedback"></div>
+                <h3>📺 Watch & Practice Video</h3>
+                <div id="video-area" class="video-container"></div>
+                
+                <div style="margin-top:30px;">
+                    <h3>📖 Vocabulary & Important Information</h3>
+                    <p id="unit-description" style="font-size: 15px; font-style: italic; color: #718096;"></p>
+                    <div id="word-list" class="word-grid"></div>
                 </div>
-                <button class="grid-btn" style="margin-top: 15px; padding: 10px 20px; font-size: 14px; max-width: 150px;" onclick="showDashboard()">↩ Geri Dön</button>
             </div>
 
+            <div class="card game-area">
+                <h3>🎮 Interactive Gap Filling Challenge (15 Unique Questions)</h3>
+                <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+                <div id="quiz-container">
+                    <p id="question-text" style="font-size: 18px; font-weight: bold;"></p>
+                    <div id="options-area"></div>
+                </div>
+                <p id="feedback" style="margin-top: 15px; font-weight: bold; font-size: 16px;"></p>
+            </div>
+            <button onclick="showHome()" class="back-btn" style="margin-top: 10px;">↩ Back to Home</button>
         </div>
     </div>
 
     <script>
-        // TÜM SINIFLAR VE TÜM ÜNİTELER (HATASIZ VE GELİŞTİRİLMİŞ TAM LİSTE)
+        // TÜM İÇERİK VERİSİ - BÜTÜN METİNLER VE 15 BENZERSİZ OYUN SORUSU
         const siteData = {
-            2: { title: "2. Sınıf İngilizce Konuları", units: [
-                { name: "Unit 1: Words", words: [{en: "Cake", tr: "Kek"}, {en: "Video", tr: "Video"}, {en: "Doctor", tr: "Doktor"}, {en: "Hotel", tr: "Otel"}], games: [{q: "Look at this delicious _______ with chocolate on it!", a: ["Cake", "Doctor", "Hotel"], correct: "Cake"}] },
-                { name: "Unit 2: Friends", words: [{en: "Hello", tr: "Merhaba"}, {en: "Goodbye", tr: "Hoşça kal"}, {en: "Name", tr: "İsim"}], games: [{q: "When you meet someone, you say: _______!", a: ["Goodbye", "Hello", "Name"], correct: "Hello"}] },
-                { name: "Unit 3: In the Classroom", words: [{en: "Desk", tr: "Sıra"}, {en: "Pencil", tr: "Kalem"}, {en: "Book", tr: "Kitap"}], games: [{q: "I use my _______ to write my homework.", a: ["Desk", "Pencil", "Book"], correct: "Pencil"}] },
-                { name: "Unit 4: Numbers", words: [{en: "One", tr: "Bir"}, {en: "Two", tr: "İki"}, {en: "Three", tr: "Üç"}, {en: "Four", tr: "Dört"}], games: [{q: "Two plus two makes _______.", a: ["One", "Three", "Four"], correct: "Four"}] },
-                { name: "Unit 5: Colors", words: [{en: "Red", tr: "Kırmızı"}, {en: "Blue", tr: "Mavi"}, {en: "Yellow", tr: "Sarı"}], games: [{q: "The sky is usually _______ on sunny days.", a: ["Red", "Blue", "Yellow"], correct: "Blue"}] },
-                { name: "Unit 6: At the Playground", words: [{en: "Slide", tr: "Kaydırak"}, {en: "Swing", tr: "Salıncak"}, {en: "Jump", tr: "Zıplamak"}], games: [{q: "Children love going down the _______.", a: ["Slide", "Swing", "Jump"], correct: "Slide"}] },
-                { name: "Unit 7: Body Parts", words: [{en: "Eye", tr: "Göz"}, {en: "Ear", tr: "Kulak"}, {en: "Hand", tr: "El"}], games: [{q: "I clap my _______s when I am happy.", a: ["Eye", "Ear", "Hand"], correct: "Hand"}] },
-                { name: "Unit 8: Pets", words: [{en: "Cat", tr: "Kedi"}, {en: "Dog", tr: "Köpek"}, {en: "Bird", tr: "Kuş"}], games: [{q: "The _______ is barking at the cat.", a: ["Cat", "Dog", "Bird"], correct: "Dog"}] },
-                { name: "Unit 9: Fruits", words: [{en: "Apple", tr: "Elma"}, {en: "Banana", tr: "Muz"}, {en: "Melon", tr: "Kavun"}], games: [{q: "Monkeys love eating yellow _______s.", a: ["Apple", "Banana", "Melon"], correct: "Banana"}] },
-                { name: "Unit 10: Animals", words: [{en: "Lion", tr: "Aslan"}, {en: "Elephant", tr: "Fil"}, {en: "Monkey", tr: "Maymun"}], games: [{q: "The _______ is the king of the jungle.", a: ["Lion", "Elephant", "Monkey"], correct: "Lion"}] }
-            ]},
-            3: { title: "3. Sınıf İngilizce Konuları", units: [
-                { name: "Unit 1: Greeting", words: [{en: "Good morning", tr: "Günaydın"}, {en: "How are you", tr: "Nasılsın"}], games: [{q: "When you wake up, you say _______.", a: ["Good morning", "Goodbye"], correct: "Good morning"}] },
-                { name: "Unit 2: My Family", words: [{en: "Mother", tr: "Anne"}, {en: "Father", tr: "Baba"}, {en: "Brother", tr: "Erkek kardeş"}], games: [{q: "My _______ and father love me very much.", a: ["Mother", "Brother"], correct: "Mother"}] },
-                { name: "Unit 3: People I Love", words: [{en: "Run", tr: "Koşmak"}, {en: "Sing", tr: "Şarkı söylemek"}], games: [{q: "Birds can _______ beautiful songs.", a: ["Run", "Sing"], correct: "Sing"}] },
-                { name: "Unit 4: Feelings", words: [{en: "Happy", tr: "Mutlu"}, {en: "Sad", tr: "Üzgün"}, {en: "Tired", tr: "Yorgun"}], games: [{q: "I am _______ because I won the game!", a: ["Happy", "Sad", "Tired"], correct: "Happy"}] },
-                { name: "Unit 5: Toys and Games", words: [{en: "Doll", tr: "Oyuncak bebek"}, {en: "Blocks", tr: "Bloklar"}], games: [{q: "She builds towers using her wooden _______.", a: ["Doll", "Blocks"], correct: "Blocks"}] },
-                { name: "Unit 6: My House", words: [{en: "Bedroom", tr: "Yatak odası"}, {en: "Kitchen", tr: "Mutfak"}], games: [{q: "My mother cooks delicious food in the _______.", a: ["Bedroom", "Kitchen"], correct: "Kitchen"}] },
-                { name: "Unit 7: In My City", words: [{en: "Park", tr: "Park"}, {en: "Museum", tr: "Müze"}, {en: "Zoo", tr: "Hayvanat bahçesi"}], games: [{q: "We can see wild animals at the _______.", a: ["Park", "Museum", "Zoo"], correct: "Zoo"}] },
-                { name: "Unit 8: Transportation", words: [{en: "Car", tr: "Araba"}, {en: "Plane", tr: "Uçak"}, {en: "Train", tr: "Tren"}], games: [{q: "The _______ flies very high in the sky.", a: ["Car", "Plane", "Train"], correct: "Plane"}] },
-                { name: "Unit 9: Weather", words: [{en: "Sunny", tr: "Güneşli"}, {en: "Rainy", tr: "Yağmurlu"}, {en: "Snowy", tr: "Karlı"}], games: [{q: "Take your umbrella, it is _______ today.", a: ["Sunny", "Rainy", "Snowy"], correct: "Rainy"}] },
-                { name: "Unit 10: Nature", words: [{en: "Tree", tr: "Ağaç"}, {en: "River", tr: "Nehir"}, {en: "Flower", tr: "Çiçek"}], games: [{q: "The red _______ smells very nice in the garden.", a: ["Tree", "River", "Flower"], correct: "Flower"}] }
-            ]},
-            4: { title: "4. Sınıf İngilizce Konuları", units: [
-                { name: "Unit 1: Classroom Rules", words: [{en: "Turn right", tr: "Sağa dön"}, {en: "Clean the board", tr: "Tahtayı sil"}], games: [{q: "Please _______ before writing the new sentences.", a: ["Turn right", "Clean the board"], correct: "Clean the board"}] },
-                { name: "Unit 2: Nationality", words: [{en: "Turkey", tr: "Türkiye"}, {en: "Japan", tr: "Japonya"}, {en: "Country", tr: "Ülke"}], games: [{q: "I live in _______; it is my beautiful country.", a: ["Turkey", "Japan", "Country"], correct: "Turkey"}] },
-                { name: "Unit 3: Cartoon Characters", words: [{en: "Fly", tr: "Uçmak"}, {en: "Ride a horse", tr: "Ata binmek"}], games: [{q: "Superheroes can _______ across the blue sky.", a: ["Fly", "Ride a horse"], correct: "Fly"}] },
-                { name: "Unit 4: Free Time", words: [{en: "Read a book", tr: "Kitap okumak"}, {en: "Watch TV", tr: "Televizyon izlemek"}], games: [{q: "I love to _______ in the library every afternoon.", a: ["Read a book", "Watch TV"], correct: "Read a book"}] },
-                { name: "Unit 5: My Day", words: [{en: "Wake up", tr: "Uyanmak"}, {en: "Go to bed", tr: "Yatağa gitmek"}], games: [{q: "I _______ early in the morning at 6 o'clock.", a: ["Wake up", "Go to bed"], correct: "Wake up"}] },
-                { name: "Unit 6: Doing Experiments", words: [{en: "Mix", tr: "Karıştırmak"}, {en: "Tube", tr: "Deney tüpü"}], games: [{q: "In science class, we _______ colors to see new ones.", a: ["Mix", "Tube"], correct: "Mix"}] },
-                { name: "Unit 7: Jobs", words: [{en: "Teacher", tr: "Öğretmen"}, {en: "Fireman", tr: "İtfaiyeci"}, {en: "Doctor", tr: "Doktor"}], games: [{q: "The _______ puts out fires to protect houses.", a: ["Teacher", "Fireman", "Doctor"], correct: "Fireman"}] },
-                { name: "Unit 8: My Clothes", words: [{en: "Jacket", tr: "Ceket"}, {en: "T-shirt", tr: "Tişört"}, {en: "Shoes", tr: "Ayakkabı"}], games: [{q: "It is cold outside, don't forget your warm _______.", a: ["Jacket", "T-shirt", "Shoes"], correct: "Jacket"}] },
-                { name: "Unit 9: My Friends", words: [{en: "Tall", tr: "Uzun boylu"}, {en: "Short", tr: "Kısa boylu"}], games: [{q: "He can play basketball well because he is very _______.", a: ["Tall", "Short"], correct: "Tall"}] },
-                { name: "Unit 10: Food and Drinks", words: [{en: "Milk", tr: "Süt"}, {en: "Cupcake", tr: "Küçük kek"}, {en: "Water", tr: "Su"}], games: [{q: "Drinking _______ is healthy for our bones.", a: ["Milk", "Cupcake", "Water"], correct: "Milk"}] }
-            ]},
-            5: { title: "5. Sınıf İngilizce Üniteleri", units: [
-                { name: "Unit 1: Hello!", words: [{en: "Language", tr: "Dil"}, {en: "Primary school", tr: "İlkokul"}, {en: "History", tr: "Tarih"}, {en: "Science", tr: "Fen"}], games: [{ q: "My favorite lesson is _______ because I love doing experiments.", a: ["Science", "History", "Language"], correct: "Science" }] },
-                { name: "Unit 2: My Town", words: [{en: "Bakery", tr: "Fırın"}, {en: "Pharmacy", tr: "Eczane"}, {en: "Library", tr: "Kütüphane"}], games: [{q: "I go to the _______ to buy fresh bread.", a: ["Bakery", "Pharmacy", "Library"], correct: "Bakery"}] },
-                { name: "Unit 3: Games and Hobbies", words: [{en: "Chess", tr: "Satranç"}, {en: "Origami", tr: "Kağıt katlama sanatı"}], games: [{q: "_______ is a game that requires good strategies.", a: ["Chess", "Origami"], correct: "Chess"}] },
-                { name: "Unit 4: My Daily Routine", words: [{en: "Brush teeth", tr: "Diş fırçalamak"}, {en: "Comb hair", tr: "Saç taramak"}], games: [{q: "I always _______ before going to sleep.", a: ["Brush teeth", "Comb hair"], correct: "Brush teeth"}] },
-                { name: "Unit 5: Health", words: [{en: "Flu", tr: "Grip"}, {en: "Cough", tr: "Öksürük"}, {en: "Medicine", tr: "İlaç"}], games: [{q: "You have a bad _______; you should see a doctor.", a: ["Flu", "Cough", "Medicine"], correct: "Cough"}] },
-                { name: "Unit 6: Movies", words: [{en: "Animation", tr: "Animasyon"}, {en: "Brave", tr: "Cesur"}, {en: "Scary", tr: "Korkunç"}], games: [{q: "Shrek is my favorite _______ movie.", a: ["Animation", "Scary"], correct: "Animation"}] },
-                { name: "Unit 7: Party Time", words: [{en: "Candle", tr: "Mum"}, {en: "Invitation card", tr: "Davetiye"}], games: [{q: "Blow out the _______ on your birthday cake!", a: ["Candle", "Invitation card"], correct: "Candle"}] },
-                { name: "Unit 8: Fitness", words: [{en: "Cycling", tr: "Bisiklete binme"}, {en: "Hiking", tr: "Doğa yürüyüşü"}], games: [{q: "We need a bicycle to go _______ in the forest.", a: ["Cycling", "Hiking"], correct: "Cycling"}] },
-                { name: "Unit 9: Animal Shelter", words: [{en: "Adopt", tr: "Sahiplenmek"}, {en: "Feed", tr: "Beslemek"}], games: [{q: "Please do not buy pets, _______ them from shelters.", a: ["Adopt", "Feed"], correct: "Adopt"}] },
-                { name: "Unit 10: Festivals", words: [{en: "Celebrate", tr: "Kutlamak"}, {en: "Parade", tr: "Geçit töreni"}], games: [{q: "We _______ Children's Day on April 23rd every year.", a: ["Celebrate", "Parade"], correct: "Celebrate"}] }
-            ]},
-            6: { title: "6. Sınıf İngilizce Üniteleri", units: [
-                    {
-                        name: "Unit 1: Life",
+            5: {
+                units: [
+                    { 
+                        id: 5, 
+                        name: "Unit 5: Health", 
+                        video: "https://www.youtube.com/embed/zH0u9_4X_rY",
+                        desc: "Essential vocabulary guide about common illnesses, symptoms, and giving medical advice using 'should / shouldn't'.",
                         words: [
-                            {en: "Get up", tr: "Yataktan kalkmak"}, {en: "Have breakfast", tr: "Kahvaltı yapmak"},
-                            {en: "Take a nap", tr: "Kestirmek"}, {en: "Run errands", tr: "İşleri halletmek"},
-                            {en: "Diary", tr: "Günlük"}, {en: "Traditional", tr: "Geleneksel"},
-                            {en: "Visit grandparents", tr: "Büyükanne/babayı ziyaret etmek"}, {en: "Attend course", tr: "Kursa katılmak"}
+                            {en: "Cough", tr: "Öksürük"}, {en: "Fever", tr: "Ateş"}, 
+                            {en: "Sneeze", tr: "Hapşırmak"}, {en: "Medicine", tr: "İlaç"}, 
+                            {en: "Headache", tr: "Baş ağrısı"}, {en: "Stomachache", tr: "Karın ağrısı"}, 
+                            {en: "Tired", tr: "Yorgun"}, {en: "Tissue", tr: "Mendil"}, 
+                            {en: "Herbal tea", tr: "Bitki çayı"}, {en: "Rest", tr: "Dinlenmek"},
+                            {en: "Toothache", tr: "Diş ağrısı"}, {en: "Sore throat", tr: "Boğaz ağrısı"},
+                            {en: "Doctor", tr: "Doktor"}, {en: "Measles", tr: "Kızamık"},
+                            {en: "Backache", tr: "Bel ağrısı"}
                         ],
-                        games: [
-                            { q: "I always _______ at 7 a.m. and have a big breakfast.", a: ["get up", "take a nap", "diary"], correct: "get up" },
-                            { q: "After school, I help my mom and _______ around the house.", a: ["attend course", "run errands", "visit"], correct: "run errands" },
-                            { q: "On Saturdays, I _______ to learn guitar.", a: ["attend a course", "take a nap", "get up"], correct: "attend a course" }
+                        questions: [
+                            { q: "I have a terrible _______, I really need to see a dentist today.", a: ["toothache", "flu", "cough"], c: "toothache" },
+                            { q: "You look very ill. You should take some _______ to feel better.", a: ["video", "medicine", "toy"], c: "medicine" },
+                            { q: "Don't drink cold water or ice cream if you have a _______.", a: ["sore throat", "broken leg", "cut"], c: "sore throat" },
+                            { q: "Can you give me a _______? I am sneezing a lot because of my cold.", a: ["soap", "tissue", "brush"], c: "tissue" },
+                            { q: "You look exhausted and _______, you should definitely go to sleep early.", a: ["happy", "tired", "fast"], c: "tired" },
+                            { q: "The professional doctor says I need to stay at home and _______ in bed.", a: ["run", "rest", "dance"], c: "rest" },
+                            { q: "You must wash your _______ frequently to stay away from viruses and germs.", a: ["hands", "books", "shoes"], c: "hands" },
+                            { q: "I have a bad _______; my head hurts so much because of the loud music.", a: ["fever", "headache", "backache"], c: "headache" },
+                            { q: "He has a high _______, his body temperature is almost 39 degrees.", a: ["fever", "cut", "cold"], c: "fever" },
+                            { q: "You should drink warm _______ with lemon for your bad cough.", a: ["coke", "herbal tea", "ice cream"], c: "herbal tea" },
+                            { q: "I cannot carry these heavy boxes because I have a painful _______.", a: ["backache", "flu", "sneeze"], c: "backache" },
+                            { q: "Please cover your mouth with your elbow when you _______.", a: ["sleep", "cough", "walk"], c: "cough" },
+                            { q: "My _______ hurts badly because I ate too much fast food and candies.", a: ["ear", "stomach", "eye"], c: "stomach" },
+                            { q: "To protect your health, you should eat fresh _______ and vegetables.", a: ["candy", "fruits", "chips"], c: "fruits" },
+                            { q: "The _______ examined the patient carefully and gave a medical prescription.", a: ["doctor", "pilot", "chef"], c: "doctor" }
                         ]
-                    },
-                    {
-                        name: "Unit 2: Yummy Breakfast",
-                        words: [
-                            {en: "Nutritious", tr: "Besleyici"}, {en: "Croissant", tr: "Kruvasan"},
-                            {en: "Cereal", tr: "Gevrek"}, {en: "Honey", tr: "Bal"},
-                            {en: "Junk food", tr: "Abur cubur"}, {en: "Delicious", tr: "Lezzetli"},
-                            {en: "Beverage", tr: "İçecek"}, {en: "Want", tr: "İstemek"}
-                        ],
-                        games: [
-                            { q: "Eggs and milk are very _______ foods for kids.", a: ["junk food", "nutritious", "croissant"], correct: "nutritious" },
-                            { q: "I love putting sweet _______ on my toast.", a: ["honey", "beverage", "cereal"], correct: "honey" },
-                            { q: "Chips and candy are _______, we shouldn't eat them too much.", a: ["delicious", "junk food", "nutritious"], correct: "junk food" }
-                        ]
-                    },
-                    { name: "Unit 3: Downtown", words: [{en: "Skyscraper", tr: "Gökdelen"}, {en: "Crowded", tr: "Kalabalık"}], games: [{q: "Big cities are very _______ and full of cars.", a: ["Skyscraper", "Crowded"], correct: "Crowded"}] },
-                    { name: "Unit 4: Weather and Emotions", words: [{en: "Anxious", tr: "Endişeli"}, {en: "Stormy", tr: "Fırtınalı"}], games: [{q: "Lightning makes me feel _______ during bad weather.", a: ["Anxious", "Stormy"], correct: "Anxious"}] },
-                    { name: "Unit 5: At the Fair", words: [{en: "Bumper cars", tr: "Çarpışan arabalar"}, {en: "Thrilling", tr: "Heyecan verici"}], games: [{q: "Riding the roller coaster is so _______!", a: ["Bumper cars", "Thrilling"], correct: "Thrilling"}] },
-                    { name: "Unit 6: Occupations", words: [{en: "Architect", tr: "Mimar"}, {en: "Design", tr: "Tasarım yapmak"}], games: [{q: "An _______ draws plans and blueprints for new buildings.", a: ["Architect", "Design"], correct: "Architect"}] },
-                    { name: "Unit 7: Holidays", words: [{en: "Sightseeing", tr: "Turistik yerleri gezme"}, {en: "Seaside", tr: "Deniz kenarı"}], games: [{q: "We spent our hot summer vacation at the _______.", a: ["Sightseeing", "Seaside"], correct: "Seaside"}] },
-                    { name: "Unit 8: Bookworms", words: [{en: "Literature", tr: "Edebiyat"}, {en: "Novel", tr: "Roman"}, {en: "Borrow", tr: "Ödünç almak"}], games: [{q: "I want to _______ this detective story from the library.", a: ["Literature", "Borrow"], correct: "Borrow"}] },
-                    { name: "Unit 9: Saving the Planet", words: [{en: "Recycle", tr: "Geri dönüştürmek"}, {en: "Pollution", tr: "Kirlilik"}], games: [{q: "We must _______ plastics to keep nature clean.", a: ["Recycle", "Pollution"], correct: "Recycle"}] },
-                    { name: "Unit 10: Democracy", words: [{en: "Elections", tr: "Seçimler"}, {en: "Vote", tr: "Oy vermek"}, {en: "Candidate", tr: "Aday"}], games: [{q: "Students cast a _______ to choose their class president.", a: ["Elections", "Vote"], correct: "Vote"}] }
-            ]},
-            7: { title: "7. Sınıf İngilizce Üniteleri", units: [
-                { name: "Unit 1: Appearance and Personality", words: [{en: "Generous", tr: "Cömert"}, {en: "Stubborn", tr: "Inatçı"}, {en: "Punctual", tr: "Dakik"}], games: [{q: "He never changes his mind, he is so _______.", a: ["Generous", "Stubborn", "Punctual"], correct: "Stubborn"}] },
-                { name: "Unit 2: Sports", words: [{en: "Train", tr: "Antrenman yapmak"}, {en: "Spectator", tr: "Seyirci"}, {en: "Medal", tr: "Madalya"}], games: [{q: "Athletes must _______ every day to win a gold medal.", a: ["Train", "Spectator"], correct: "Train"}] },
-                { name: "Unit 3: Biographies", words: [{en: "Graduate", tr: "Mezun olmak"}, {en: "Award", tr: "Ödül"}], games: [{q: "He worked hard and managed to _______ from university.", a: ["Graduate", "Award"], correct: "Graduate"}] },
-                { name: "Unit 4: Wild Animals", words: [{en: "Extinct", tr: "Nesli tükenmiş"}, {en: "Habitat", tr: "Yaşam alanı"}], games: [{q: "Dinosaurs became _______ millions of years ago.", a: ["Extinct", "Habitat"], correct: "Extinct"}] },
-                { name: "Unit 5: Television", words: [{en: "Commercial", tr: "Reklam"}, {en: "Documentary", tr: "Belgesel"}], games: [{q: "I love watching a _______ about lions and wild nature.", a: ["Commercial", "Documentary"], correct: "Documentary"}] },
-                { name: "Unit 6: Celebrations", words: [{en: "Wrap", tr: "Paketlemek"}, {en: "Guest", tr: "Misafir"}], games: [{q: "I need to _______ this birthday gift nicely.", a: ["Wrap", "Guest"], correct: "Wrap"}] },
-                { name: "Unit 7: Dreams", words: [{en: "Career", tr: "Kariyer"}, {en: "Predict", tr: "Tahmin etmek"}], games: [{q: "Fortune tellers try to _______ the future.", a: ["Career", "Predict"], correct: "Predict"}] },
-                { name: "Unit 8: Public Buildings", words: [{en: "Governorate", tr: "Valilik"}, {en: "Amusement park", tr: "Eğlence parkı"}], games: [{q: "Children want to have fun at the _______.", a: ["Governorate", "Amusement park"], correct: "Amusement park"}] },
-                { name: "Unit 9: Environment", words: [{en: "Global warming", tr: "Küresel ısınma"}, {en: "Eco-friendly", tr: "Çevre dostu"}], games: [{q: "Using solar energy is an _______ option.", a: ["Global warming", "Eco-friendly"], correct: "Eco-friendly"}] },
-                { name: "Unit 10: Planets", words: [{en: "Orbit", tr: "Yörünge"}, {en: "Gravity", tr: "Yerçekimi"}, {en: "Solar system", tr: "Güneş sistemi"}], games: [{q: "The Earth goes around the Sun in its fixed _______.", a: ["Orbit", "Gravity"], correct: "Orbit"}] }
-            ]},
-            8: { title: "8. Sınıf İngilizce Üniteleri", units: [
-                { name: "Unit 1: Friendship", words: [{en: "Back up", tr: "Desteklemek"}, {en: "Count on", tr: "Güvenmek"}, {en: "Buddy", tr: "Yakın arkadaş"}], games: [{q: "True friends always _______ each other in difficult times.", a: ["Back up", "Count on", "Buddy"], correct: "Back up"}] },
-                { name: "Unit 2: Teen Life", words: [{en: "Unbearable", tr: "Katlanılmaz"}, {en: "Trendy", tr: "Modaya uygun"}], games: [{q: "Heavy metal music is totally _______ to my ears.", a: ["Unbearable", "Trendy"], correct: "Unbearable"}] },
-                { name: "Unit 3: In the Kitchen", words: [{en: "Chop", tr: "Doğramak"}, {en: "Bake", tr: "Fırında pişirmek"}, {en: "Recipe", tr: "Yemek tarifi"}], games: [{q: "First, _______ the onions into very small pieces.", a: ["Chop", "Bake", "Recipe"], correct: "Chop"}] },
-                { name: "Unit 4: On the Phone", words: [{en: "Hang up", tr: "Telefonu kapatmak"}, {en: "Hold on", tr: "Beklemek"}], games: [{q: "Please _______ a minute, I will fetch him.", a: ["Hang up", "Hold on"], correct: "Hold on"}] },
-                { name: "Unit 5: The Internet", words: [{en: "Connection", tr: "Bağlantı"}, {en: "Upload", tr: "Dosya yüklemek"}], games: [{q: "I cannot browse websites due to a poor internet _______.", a: ["Connection", "Upload"], correct: "Connection"}] },
-                { name: "Unit 6: Adventures", words: [{en: "Paragliding", tr: "Yamaç paraşütü"}, {en: "Mysterious", tr: "Gizemli"}], games: [{q: "_______ offers a great view of the valleys from above.", a: ["Paragliding", "Mysterious"], correct: "Paragliding"}] },
-                { name: "Unit 7: Tourism", words: [{en: "Architecture", tr: "Mimari yapı"}, {en: "Accommodation", tr: "Konaklama"}], games: [{q: "Hotels provide comfortable _______ options for tourists.", a: ["Architecture", "Accommodation"], correct: "Accommodation"}] },
-                { name: "Unit 8: Chores", words: [{en: "Mop the floor", tr: "Yerleri paspaslamak"}, {en: "Do the laundry", tr: "Çamaşır yıkamak"}], games: [{q: "It's my duty to _______ using soapy water.", a: ["Mop the floor", "Do the laundry"], correct: "Mop the floor"}] },
-                { name: "Unit 9: Science", words: [{en: "Discovery", tr: "Keşif"}, {en: "Vaccination", tr: "Aşılama"}, {en: "Lab", tr: "Laboratuvar"}], games: [{q: "Scientists made a great medical _______ last week.", a: ["Discovery", "Vaccination"], correct: "Discovery"}] },
-                { name: "Unit 10: Natural Forces", words: [{en: "Earthquake", tr: "Deprem"}, {en: "Landslide", tr: "Heyelan"}, {en: "Flood", tr: "Sel"}], games: [{q: "Heavy rains triggered a massive _______ in the mountains.", a: ["Earthquake", "Landslide"], correct: "Landslide"}] }
-            ]}
+                    }
+                ]
+            }
         };
 
-        let currentUnitGames = [];
-        let currentGameIndex = 0;
+        let currentQuestions = [];
+        let questionIndex = 0;
 
-        function switchTheme() {
-            const checkbox = document.getElementById('theme-slider');
-            if (checkbox.checked) {
-                document.body.classList.add('night-mode');
+        function toggleMenu(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        function showHome() {
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('unit-selection').classList.add('hidden');
+            document.getElementById('study-page').classList.add('hidden');
+        }
+
+        function loadGrade(grade) {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('study-page').classList.add('hidden');
+            const selection = document.getElementById('unit-selection');
+            selection.classList.remove('hidden');
+            
+            document.getElementById('grade-title').innerText = "Grade " + grade + " Units";
+            const btnArea = document.getElementById('unit-buttons');
+            btnArea.innerHTML = "";
+
+            if(siteData[grade] && siteData[grade].units.length > 0) {
+                siteData[grade].units.forEach(u => {
+                    const btn = document.createElement('div');
+                    btn.className = "menu-link";
+                    btn.style.textAlign = "center";
+                    btn.innerText = u.name;
+                    btn.onclick = () => loadUnit(grade, u.id);
+                    btnArea.appendChild(btn);
+                });
             } else {
-                document.body.classList.remove('night-mode');
+                btnArea.innerHTML = "<p style='grid-column: span 2; color: #718096;'>The 15-question elite packs for this grade are currently being processed. Stay tuned!</p>";
             }
         }
 
-        function togglePrimaryMenu() {
-            const list = document.getElementById('primary-menu-list');
-            list.classList.toggle('hidden');
-        }
+        function loadUnit(grade, unitId) {
+            const unit = siteData[grade].units.find(u => u.id === unitId);
+            document.getElementById('unit-selection').classList.add('hidden');
+            document.getElementById('study-page').classList.remove('hidden');
 
-        // PANELİ RESETLEME
-        function showDashboard() {
-            document.getElementById('selection-zone').classList.remove('hidden');
-            document.getElementById('study-zone').classList.add('hidden');
-        }
-
-        // SEÇİLEN SINIFIN TÜM ÜNİTELERİNİ LİSTELEME
-        function selectGrade(grade) {
-            document.querySelectorAll('.sub-menu-item').forEach(el => el.classList.remove('active'));
-            if(document.getElementById(`side-${grade}`)) {
-                document.getElementById(`side-${grade}`).classList.add('active');
-            }
-
-            const zoneTitle = document.getElementById('panel-title');
-            const gridBox = document.getElementById('unit-grid-box');
-            showDashboard();
-
-            if (!siteData[grade]) {
-                zoneTitle.innerText = `${grade}. Sınıf Çalışmaları`;
-                gridBox.innerHTML = `<p style="grid-column: span 2;">Bu sınıfın yeni nesil kelime havuzu yakında eklenecektir.</p>`;
-                return;
-            }
-
-            zoneTitle.innerText = siteData[grade].title;
-            gridBox.innerHTML = "";
-
-            siteData[grade].units.forEach((unit, index) => {
-                const btn = document.createElement('div');
-                btn.className = "grid-btn";
-                btn.innerText = unit.name;
-                btn.onclick = () => launchUnit(grade, index);
-                gridBox.appendChild(btn);
-            });
-        }
-
-        // ÜNİTE DETAYLARINA GİRİŞ
-        function launchUnit(grade, unitIndex) {
-            document.getElementById('selection-zone').classList.add('hidden');
-            document.getElementById('study-zone').classList.remove('hidden');
-
-            const unit = siteData[grade].units[unitIndex];
-            document.getElementById('study-title').innerText = unit.name;
-
-            const wordsListDiv = document.getElementById('words-list');
-            wordsListDiv.innerHTML = "";
+            document.getElementById('current-unit-name').innerText = unit.name;
+            document.getElementById('unit-description').innerText = unit.desc;
+            document.getElementById('video-area').innerHTML = `<iframe src="${unit.video}" allowfullscreen></iframe>`;
+            
+            const wordList = document.getElementById('word-list');
+            wordList.innerHTML = "";
             unit.words.forEach(w => {
-                wordsListDiv.innerHTML += `<div class="word-badge">${w.en} : <span>${w.tr}</span></div>`;
+                wordList.innerHTML += `<div class="word-card">${w.en} <span>(${w.tr})</span></div>`;
             });
 
-            currentUnitGames = unit.games;
-            currentGameIndex = 0;
-            loadGameQuestion();
+            currentQuestions = unit.questions;
+            questionIndex = 0;
+            
+            // Sıfırlama işlemi (Eğer önceden çözüldüyse baştan başlatmak için)
+            document.getElementById('quiz-container').innerHTML = `
+                <p id="question-text" style="font-size: 18px; font-weight: bold;"></p>
+                <div id="options-area"></div>
+            `;
+            loadQuestion();
         }
 
-        // OYUN SORULARINI GETİRME
-        function loadGameQuestion() {
-            const questionBox = document.getElementById('game-question');
-            const optionsBox = document.getElementById('game-options');
-            document.getElementById('game-feedback').innerText = "";
+        function loadQuestion() {
+            const feedback = document.getElementById('feedback');
+            feedback.innerText = "";
+            const progress = (questionIndex / currentQuestions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + "%";
 
-            if (!currentUnitGames || currentUnitGames.length === 0 || currentGameIndex >= currentUnitGames.length) {
-                questionBox.innerText = "🎉 Tebrikler! Bu ünitedeki tüm cümle tamamlama bölümlerini tamamladın!";
-                optionsBox.innerHTML = "";
+            if(questionIndex >= currentQuestions.length) {
+                document.getElementById('quiz-container').innerHTML = "<h2 style='color: #38a169; text-align:center;'>🎉 Unit Completed Successfully! Excellent Work, Miray!</h2>";
                 return;
             }
 
-            const currentData = currentUnitGames[currentGameIndex];
-            questionBox.innerText = `Soru ${currentGameIndex + 1}: ${currentData.q}`;
-            optionsBox.innerHTML = "";
-
-            currentData.a.forEach(opt => {
+            const qData = currentQuestions[questionIndex];
+            document.getElementById('question-text').innerText = `Question ${questionIndex + 1}: ${qData.q}`;
+            
+            const optionsArea = document.getElementById('options-area');
+            optionsArea.innerHTML = "";
+            qData.a.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = "option-btn";
                 btn.innerText = opt;
-                btn.onclick = () => checkAnswer(opt, currentData.correct);
-                optionsBox.appendChild(btn);
+                btn.onclick = () => checkAnswer(opt, qData.c);
+                optionsArea.appendChild(btn);
             });
         }
 
-        // CEVAP KONTROLÜ
-        function checkAnswer(selected, correct) {
-            const feedback = document.getElementById('game-feedback');
-            if (selected === correct) {
-                feedback.innerHTML = "<span style='color: #27ae60;'>✔ Harika! Doğru kelimeyi buldun.</span>";
-                currentGameIndex++;
-                setTimeout(loadGameQuestion, 1300);
+        function checkAnswer(val, correct) {
+            const feedback = document.getElementById('feedback');
+            if(val === correct) {
+                feedback.innerText = "✓ Correct Answer! Well done.";
+                feedback.style.color = "#38a169";
+                questionIndex++;
+                setTimeout(loadQuestion, 1000);
             } else {
-                feedback.innerHTML = "<span style='color: #c0392b;'>❌ Yanlış şık, cümleyi tekrar oku!</span>";
+                feedback.innerText = "✗ Wrong Option! Read the sentence again carefully.";
+                feedback.style.color = "#e53e3e";
             }
+        }
+
+        function toggleNightMode() {
+            document.body.classList.toggle('night-mode');
         }
     </script>
 </body>
