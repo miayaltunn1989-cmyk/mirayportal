@@ -368,11 +368,57 @@
     </div>
 
     <script>
-        // İNGİLİZCE GELİŞTİRME VERİ HAVUZU (BOL KELİMELİ)
+        // TÜM SINIFLAR VE TÜM ÜNİTELER (HATASIZ VE GELİŞTİRİLMİŞ TAM LİSTE)
         const siteData = {
-            6: {
-                title: "6. Sınıf İngilizce Üniteleri",
-                units: [
+            2: { title: "2. Sınıf İngilizce Konuları", units: [
+                { name: "Unit 1: Words", words: [{en: "Cake", tr: "Kek"}, {en: "Video", tr: "Video"}, {en: "Doctor", tr: "Doktor"}, {en: "Hotel", tr: "Otel"}], games: [{q: "Look at this delicious _______ with chocolate on it!", a: ["Cake", "Doctor", "Hotel"], correct: "Cake"}] },
+                { name: "Unit 2: Friends", words: [{en: "Hello", tr: "Merhaba"}, {en: "Goodbye", tr: "Hoşça kal"}, {en: "Name", tr: "İsim"}], games: [{q: "When you meet someone, you say: _______!", a: ["Goodbye", "Hello", "Name"], correct: "Hello"}] },
+                { name: "Unit 3: In the Classroom", words: [{en: "Desk", tr: "Sıra"}, {en: "Pencil", tr: "Kalem"}, {en: "Book", tr: "Kitap"}], games: [{q: "I use my _______ to write my homework.", a: ["Desk", "Pencil", "Book"], correct: "Pencil"}] },
+                { name: "Unit 4: Numbers", words: [{en: "One", tr: "Bir"}, {en: "Two", tr: "İki"}, {en: "Three", tr: "Üç"}, {en: "Four", tr: "Dört"}], games: [{q: "Two plus two makes _______.", a: ["One", "Three", "Four"], correct: "Four"}] },
+                { name: "Unit 5: Colors", words: [{en: "Red", tr: "Kırmızı"}, {en: "Blue", tr: "Mavi"}, {en: "Yellow", tr: "Sarı"}], games: [{q: "The sky is usually _______ on sunny days.", a: ["Red", "Blue", "Yellow"], correct: "Blue"}] },
+                { name: "Unit 6: At the Playground", words: [{en: "Slide", tr: "Kaydırak"}, {en: "Swing", tr: "Salıncak"}, {en: "Jump", tr: "Zıplamak"}], games: [{q: "Children love going down the _______.", a: ["Slide", "Swing", "Jump"], correct: "Slide"}] },
+                { name: "Unit 7: Body Parts", words: [{en: "Eye", tr: "Göz"}, {en: "Ear", tr: "Kulak"}, {en: "Hand", tr: "El"}], games: [{q: "I clap my _______s when I am happy.", a: ["Eye", "Ear", "Hand"], correct: "Hand"}] },
+                { name: "Unit 8: Pets", words: [{en: "Cat", tr: "Kedi"}, {en: "Dog", tr: "Köpek"}, {en: "Bird", tr: "Kuş"}], games: [{q: "The _______ is barking at the cat.", a: ["Cat", "Dog", "Bird"], correct: "Dog"}] },
+                { name: "Unit 9: Fruits", words: [{en: "Apple", tr: "Elma"}, {en: "Banana", tr: "Muz"}, {en: "Melon", tr: "Kavun"}], games: [{q: "Monkeys love eating yellow _______s.", a: ["Apple", "Banana", "Melon"], correct: "Banana"}] },
+                { name: "Unit 10: Animals", words: [{en: "Lion", tr: "Aslan"}, {en: "Elephant", tr: "Fil"}, {en: "Monkey", tr: "Maymun"}], games: [{q: "The _______ is the king of the jungle.", a: ["Lion", "Elephant", "Monkey"], correct: "Lion"}] }
+            ]},
+            3: { title: "3. Sınıf İngilizce Konuları", units: [
+                { name: "Unit 1: Greeting", words: [{en: "Good morning", tr: "Günaydın"}, {en: "How are you", tr: "Nasılsın"}], games: [{q: "When you wake up, you say _______.", a: ["Good morning", "Goodbye"], correct: "Good morning"}] },
+                { name: "Unit 2: My Family", words: [{en: "Mother", tr: "Anne"}, {en: "Father", tr: "Baba"}, {en: "Brother", tr: "Erkek kardeş"}], games: [{q: "My _______ and father love me very much.", a: ["Mother", "Brother"], correct: "Mother"}] },
+                { name: "Unit 3: People I Love", words: [{en: "Run", tr: "Koşmak"}, {en: "Sing", tr: "Şarkı söylemek"}], games: [{q: "Birds can _______ beautiful songs.", a: ["Run", "Sing"], correct: "Sing"}] },
+                { name: "Unit 4: Feelings", words: [{en: "Happy", tr: "Mutlu"}, {en: "Sad", tr: "Üzgün"}, {en: "Tired", tr: "Yorgun"}], games: [{q: "I am _______ because I won the game!", a: ["Happy", "Sad", "Tired"], correct: "Happy"}] },
+                { name: "Unit 5: Toys and Games", words: [{en: "Doll", tr: "Oyuncak bebek"}, {en: "Blocks", tr: "Bloklar"}], games: [{q: "She builds towers using her wooden _______.", a: ["Doll", "Blocks"], correct: "Blocks"}] },
+                { name: "Unit 6: My House", words: [{en: "Bedroom", tr: "Yatak odası"}, {en: "Kitchen", tr: "Mutfak"}], games: [{q: "My mother cooks delicious food in the _______.", a: ["Bedroom", "Kitchen"], correct: "Kitchen"}] },
+                { name: "Unit 7: In My City", words: [{en: "Park", tr: "Park"}, {en: "Museum", tr: "Müze"}, {en: "Zoo", tr: "Hayvanat bahçesi"}], games: [{q: "We can see wild animals at the _______.", a: ["Park", "Museum", "Zoo"], correct: "Zoo"}] },
+                { name: "Unit 8: Transportation", words: [{en: "Car", tr: "Araba"}, {en: "Plane", tr: "Uçak"}, {en: "Train", tr: "Tren"}], games: [{q: "The _______ flies very high in the sky.", a: ["Car", "Plane", "Train"], correct: "Plane"}] },
+                { name: "Unit 9: Weather", words: [{en: "Sunny", tr: "Güneşli"}, {en: "Rainy", tr: "Yağmurlu"}, {en: "Snowy", tr: "Karlı"}], games: [{q: "Take your umbrella, it is _______ today.", a: ["Sunny", "Rainy", "Snowy"], correct: "Rainy"}] },
+                { name: "Unit 10: Nature", words: [{en: "Tree", tr: "Ağaç"}, {en: "River", tr: "Nehir"}, {en: "Flower", tr: "Çiçek"}], games: [{q: "The red _______ smells very nice in the garden.", a: ["Tree", "River", "Flower"], correct: "Flower"}] }
+            ]},
+            4: { title: "4. Sınıf İngilizce Konuları", units: [
+                { name: "Unit 1: Classroom Rules", words: [{en: "Turn right", tr: "Sağa dön"}, {en: "Clean the board", tr: "Tahtayı sil"}], games: [{q: "Please _______ before writing the new sentences.", a: ["Turn right", "Clean the board"], correct: "Clean the board"}] },
+                { name: "Unit 2: Nationality", words: [{en: "Turkey", tr: "Türkiye"}, {en: "Japan", tr: "Japonya"}, {en: "Country", tr: "Ülke"}], games: [{q: "I live in _______; it is my beautiful country.", a: ["Turkey", "Japan", "Country"], correct: "Turkey"}] },
+                { name: "Unit 3: Cartoon Characters", words: [{en: "Fly", tr: "Uçmak"}, {en: "Ride a horse", tr: "Ata binmek"}], games: [{q: "Superheroes can _______ across the blue sky.", a: ["Fly", "Ride a horse"], correct: "Fly"}] },
+                { name: "Unit 4: Free Time", words: [{en: "Read a book", tr: "Kitap okumak"}, {en: "Watch TV", tr: "Televizyon izlemek"}], games: [{q: "I love to _______ in the library every afternoon.", a: ["Read a book", "Watch TV"], correct: "Read a book"}] },
+                { name: "Unit 5: My Day", words: [{en: "Wake up", tr: "Uyanmak"}, {en: "Go to bed", tr: "Yatağa gitmek"}], games: [{q: "I _______ early in the morning at 6 o'clock.", a: ["Wake up", "Go to bed"], correct: "Wake up"}] },
+                { name: "Unit 6: Doing Experiments", words: [{en: "Mix", tr: "Karıştırmak"}, {en: "Tube", tr: "Deney tüpü"}], games: [{q: "In science class, we _______ colors to see new ones.", a: ["Mix", "Tube"], correct: "Mix"}] },
+                { name: "Unit 7: Jobs", words: [{en: "Teacher", tr: "Öğretmen"}, {en: "Fireman", tr: "İtfaiyeci"}, {en: "Doctor", tr: "Doktor"}], games: [{q: "The _______ puts out fires to protect houses.", a: ["Teacher", "Fireman", "Doctor"], correct: "Fireman"}] },
+                { name: "Unit 8: My Clothes", words: [{en: "Jacket", tr: "Ceket"}, {en: "T-shirt", tr: "Tişört"}, {en: "Shoes", tr: "Ayakkabı"}], games: [{q: "It is cold outside, don't forget your warm _______.", a: ["Jacket", "T-shirt", "Shoes"], correct: "Jacket"}] },
+                { name: "Unit 9: My Friends", words: [{en: "Tall", tr: "Uzun boylu"}, {en: "Short", tr: "Kısa boylu"}], games: [{q: "He can play basketball well because he is very _______.", a: ["Tall", "Short"], correct: "Tall"}] },
+                { name: "Unit 10: Food and Drinks", words: [{en: "Milk", tr: "Süt"}, {en: "Cupcake", tr: "Küçük kek"}, {en: "Water", tr: "Su"}], games: [{q: "Drinking _______ is healthy for our bones.", a: ["Milk", "Cupcake", "Water"], correct: "Milk"}] }
+            ]},
+            5: { title: "5. Sınıf İngilizce Üniteleri", units: [
+                { name: "Unit 1: Hello!", words: [{en: "Language", tr: "Dil"}, {en: "Primary school", tr: "İlkokul"}, {en: "History", tr: "Tarih"}, {en: "Science", tr: "Fen"}], games: [{ q: "My favorite lesson is _______ because I love doing experiments.", a: ["Science", "History", "Language"], correct: "Science" }] },
+                { name: "Unit 2: My Town", words: [{en: "Bakery", tr: "Fırın"}, {en: "Pharmacy", tr: "Eczane"}, {en: "Library", tr: "Kütüphane"}], games: [{q: "I go to the _______ to buy fresh bread.", a: ["Bakery", "Pharmacy", "Library"], correct: "Bakery"}] },
+                { name: "Unit 3: Games and Hobbies", words: [{en: "Chess", tr: "Satranç"}, {en: "Origami", tr: "Kağıt katlama sanatı"}], games: [{q: "_______ is a game that requires good strategies.", a: ["Chess", "Origami"], correct: "Chess"}] },
+                { name: "Unit 4: My Daily Routine", words: [{en: "Brush teeth", tr: "Diş fırçalamak"}, {en: "Comb hair", tr: "Saç taramak"}], games: [{q: "I always _______ before going to sleep.", a: ["Brush teeth", "Comb hair"], correct: "Brush teeth"}] },
+                { name: "Unit 5: Health", words: [{en: "Flu", tr: "Grip"}, {en: "Cough", tr: "Öksürük"}, {en: "Medicine", tr: "İlaç"}], games: [{q: "You have a bad _______; you should see a doctor.", a: ["Flu", "Cough", "Medicine"], correct: "Cough"}] },
+                { name: "Unit 6: Movies", words: [{en: "Animation", tr: "Animasyon"}, {en: "Brave", tr: "Cesur"}, {en: "Scary", tr: "Korkunç"}], games: [{q: "Shrek is my favorite _______ movie.", a: ["Animation", "Scary"], correct: "Animation"}] },
+                { name: "Unit 7: Party Time", words: [{en: "Candle", tr: "Mum"}, {en: "Invitation card", tr: "Davetiye"}], games: [{q: "Blow out the _______ on your birthday cake!", a: ["Candle", "Invitation card"], correct: "Candle"}] },
+                { name: "Unit 8: Fitness", words: [{en: "Cycling", tr: "Bisiklete binme"}, {en: "Hiking", tr: "Doğa yürüyüşü"}], games: [{q: "We need a bicycle to go _______ in the forest.", a: ["Cycling", "Hiking"], correct: "Cycling"}] },
+                { name: "Unit 9: Animal Shelter", words: [{en: "Adopt", tr: "Sahiplenmek"}, {en: "Feed", tr: "Beslemek"}], games: [{q: "Please do not buy pets, _______ them from shelters.", a: ["Adopt", "Feed"], correct: "Adopt"}] },
+                { name: "Unit 10: Festivals", words: [{en: "Celebrate", tr: "Kutlamak"}, {en: "Parade", tr: "Geçit töreni"}], games: [{q: "We _______ Children's Day on April 23rd every year.", a: ["Celebrate", "Parade"], correct: "Celebrate"}] }
+            ]},
+            6: { title: "6. Sınıf İngilizce Üniteleri", units: [
                     {
                         name: "Unit 1: Life",
                         words: [
@@ -400,19 +446,40 @@
                             { q: "I love putting sweet _______ on my toast.", a: ["honey", "beverage", "cereal"], correct: "honey" },
                             { q: "Chips and candy are _______, we shouldn't eat them too much.", a: ["delicious", "junk food", "nutritious"], correct: "junk food" }
                         ]
-                    }
-                ]
-            },
-            5: {
-                title: "5. Sınıf İngilizce Üniteleri",
-                units: [
-                    {
-                        name: "Unit 1: Hello!",
-                        words: [{en: "Language", tr: "Dil"}, {en: "Primary school", tr: "İlkokul"}, {en: "History", tr: "Tarih"}, {en: "Science", tr: "Fen"}],
-                        games: [{ q: "My favorite lesson is _______ because I love doing experiments.", a: ["Science", "History", "Language"], correct: "Science" }]
-                    }
-                ]
-            }
+                    },
+                    { name: "Unit 3: Downtown", words: [{en: "Skyscraper", tr: "Gökdelen"}, {en: "Crowded", tr: "Kalabalık"}], games: [{q: "Big cities are very _______ and full of cars.", a: ["Skyscraper", "Crowded"], correct: "Crowded"}] },
+                    { name: "Unit 4: Weather and Emotions", words: [{en: "Anxious", tr: "Endişeli"}, {en: "Stormy", tr: "Fırtınalı"}], games: [{q: "Lightning makes me feel _______ during bad weather.", a: ["Anxious", "Stormy"], correct: "Anxious"}] },
+                    { name: "Unit 5: At the Fair", words: [{en: "Bumper cars", tr: "Çarpışan arabalar"}, {en: "Thrilling", tr: "Heyecan verici"}], games: [{q: "Riding the roller coaster is so _______!", a: ["Bumper cars", "Thrilling"], correct: "Thrilling"}] },
+                    { name: "Unit 6: Occupations", words: [{en: "Architect", tr: "Mimar"}, {en: "Design", tr: "Tasarım yapmak"}], games: [{q: "An _______ draws plans and blueprints for new buildings.", a: ["Architect", "Design"], correct: "Architect"}] },
+                    { name: "Unit 7: Holidays", words: [{en: "Sightseeing", tr: "Turistik yerleri gezme"}, {en: "Seaside", tr: "Deniz kenarı"}], games: [{q: "We spent our hot summer vacation at the _______.", a: ["Sightseeing", "Seaside"], correct: "Seaside"}] },
+                    { name: "Unit 8: Bookworms", words: [{en: "Literature", tr: "Edebiyat"}, {en: "Novel", tr: "Roman"}, {en: "Borrow", tr: "Ödünç almak"}], games: [{q: "I want to _______ this detective story from the library.", a: ["Literature", "Borrow"], correct: "Borrow"}] },
+                    { name: "Unit 9: Saving the Planet", words: [{en: "Recycle", tr: "Geri dönüştürmek"}, {en: "Pollution", tr: "Kirlilik"}], games: [{q: "We must _______ plastics to keep nature clean.", a: ["Recycle", "Pollution"], correct: "Recycle"}] },
+                    { name: "Unit 10: Democracy", words: [{en: "Elections", tr: "Seçimler"}, {en: "Vote", tr: "Oy vermek"}, {en: "Candidate", tr: "Aday"}], games: [{q: "Students cast a _______ to choose their class president.", a: ["Elections", "Vote"], correct: "Vote"}] }
+            ]},
+            7: { title: "7. Sınıf İngilizce Üniteleri", units: [
+                { name: "Unit 1: Appearance and Personality", words: [{en: "Generous", tr: "Cömert"}, {en: "Stubborn", tr: "Inatçı"}, {en: "Punctual", tr: "Dakik"}], games: [{q: "He never changes his mind, he is so _______.", a: ["Generous", "Stubborn", "Punctual"], correct: "Stubborn"}] },
+                { name: "Unit 2: Sports", words: [{en: "Train", tr: "Antrenman yapmak"}, {en: "Spectator", tr: "Seyirci"}, {en: "Medal", tr: "Madalya"}], games: [{q: "Athletes must _______ every day to win a gold medal.", a: ["Train", "Spectator"], correct: "Train"}] },
+                { name: "Unit 3: Biographies", words: [{en: "Graduate", tr: "Mezun olmak"}, {en: "Award", tr: "Ödül"}], games: [{q: "He worked hard and managed to _______ from university.", a: ["Graduate", "Award"], correct: "Graduate"}] },
+                { name: "Unit 4: Wild Animals", words: [{en: "Extinct", tr: "Nesli tükenmiş"}, {en: "Habitat", tr: "Yaşam alanı"}], games: [{q: "Dinosaurs became _______ millions of years ago.", a: ["Extinct", "Habitat"], correct: "Extinct"}] },
+                { name: "Unit 5: Television", words: [{en: "Commercial", tr: "Reklam"}, {en: "Documentary", tr: "Belgesel"}], games: [{q: "I love watching a _______ about lions and wild nature.", a: ["Commercial", "Documentary"], correct: "Documentary"}] },
+                { name: "Unit 6: Celebrations", words: [{en: "Wrap", tr: "Paketlemek"}, {en: "Guest", tr: "Misafir"}], games: [{q: "I need to _______ this birthday gift nicely.", a: ["Wrap", "Guest"], correct: "Wrap"}] },
+                { name: "Unit 7: Dreams", words: [{en: "Career", tr: "Kariyer"}, {en: "Predict", tr: "Tahmin etmek"}], games: [{q: "Fortune tellers try to _______ the future.", a: ["Career", "Predict"], correct: "Predict"}] },
+                { name: "Unit 8: Public Buildings", words: [{en: "Governorate", tr: "Valilik"}, {en: "Amusement park", tr: "Eğlence parkı"}], games: [{q: "Children want to have fun at the _______.", a: ["Governorate", "Amusement park"], correct: "Amusement park"}] },
+                { name: "Unit 9: Environment", words: [{en: "Global warming", tr: "Küresel ısınma"}, {en: "Eco-friendly", tr: "Çevre dostu"}], games: [{q: "Using solar energy is an _______ option.", a: ["Global warming", "Eco-friendly"], correct: "Eco-friendly"}] },
+                { name: "Unit 10: Planets", words: [{en: "Orbit", tr: "Yörünge"}, {en: "Gravity", tr: "Yerçekimi"}, {en: "Solar system", tr: "Güneş sistemi"}], games: [{q: "The Earth goes around the Sun in its fixed _______.", a: ["Orbit", "Gravity"], correct: "Orbit"}] }
+            ]},
+            8: { title: "8. Sınıf İngilizce Üniteleri", units: [
+                { name: "Unit 1: Friendship", words: [{en: "Back up", tr: "Desteklemek"}, {en: "Count on", tr: "Güvenmek"}, {en: "Buddy", tr: "Yakın arkadaş"}], games: [{q: "True friends always _______ each other in difficult times.", a: ["Back up", "Count on", "Buddy"], correct: "Back up"}] },
+                { name: "Unit 2: Teen Life", words: [{en: "Unbearable", tr: "Katlanılmaz"}, {en: "Trendy", tr: "Modaya uygun"}], games: [{q: "Heavy metal music is totally _______ to my ears.", a: ["Unbearable", "Trendy"], correct: "Unbearable"}] },
+                { name: "Unit 3: In the Kitchen", words: [{en: "Chop", tr: "Doğramak"}, {en: "Bake", tr: "Fırında pişirmek"}, {en: "Recipe", tr: "Yemek tarifi"}], games: [{q: "First, _______ the onions into very small pieces.", a: ["Chop", "Bake", "Recipe"], correct: "Chop"}] },
+                { name: "Unit 4: On the Phone", words: [{en: "Hang up", tr: "Telefonu kapatmak"}, {en: "Hold on", tr: "Beklemek"}], games: [{q: "Please _______ a minute, I will fetch him.", a: ["Hang up", "Hold on"], correct: "Hold on"}] },
+                { name: "Unit 5: The Internet", words: [{en: "Connection", tr: "Bağlantı"}, {en: "Upload", tr: "Dosya yüklemek"}], games: [{q: "I cannot browse websites due to a poor internet _______.", a: ["Connection", "Upload"], correct: "Connection"}] },
+                { name: "Unit 6: Adventures", words: [{en: "Paragliding", tr: "Yamaç paraşütü"}, {en: "Mysterious", tr: "Gizemli"}], games: [{q: "_______ offers a great view of the valleys from above.", a: ["Paragliding", "Mysterious"], correct: "Paragliding"}] },
+                { name: "Unit 7: Tourism", words: [{en: "Architecture", tr: "Mimari yapı"}, {en: "Accommodation", tr: "Konaklama"}], games: [{q: "Hotels provide comfortable _______ options for tourists.", a: ["Architecture", "Accommodation"], correct: "Accommodation"}] },
+                { name: "Unit 8: Chores", words: [{en: "Mop the floor", tr: "Yerleri paspaslamak"}, {en: "Do the laundry", tr: "Çamaşır yıkamak"}], games: [{q: "It's my duty to _______ using soapy water.", a: ["Mop the floor", "Do the laundry"], correct: "Mop the floor"}] },
+                { name: "Unit 9: Science", words: [{en: "Discovery", tr: "Keşif"}, {en: "Vaccination", tr: "Aşılama"}, {en: "Lab", tr: "Laboratuvar"}], games: [{q: "Scientists made a great medical _______ last week.", a: ["Discovery", "Vaccination"], correct: "Discovery"}] },
+                { name: "Unit 10: Natural Forces", words: [{en: "Earthquake", tr: "Deprem"}, {en: "Landslide", tr: "Heyelan"}, {en: "Flood", tr: "Sel"}], games: [{q: "Heavy rains triggered a massive _______ in the mountains.", a: ["Earthquake", "Landslide"], correct: "Landslide"}] }
+            ]}
         };
 
         let currentUnitGames = [];
@@ -432,11 +499,13 @@
             list.classList.toggle('hidden');
         }
 
+        // PANELİ RESETLEME
         function showDashboard() {
             document.getElementById('selection-zone').classList.remove('hidden');
             document.getElementById('study-zone').classList.add('hidden');
         }
 
+        // SEÇİLEN SINIFIN TÜM ÜNİTELERİNİ LİSTELEME
         function selectGrade(grade) {
             document.querySelectorAll('.sub-menu-item').forEach(el => el.classList.remove('active'));
             if(document.getElementById(`side-${grade}`)) {
@@ -465,6 +534,7 @@
             });
         }
 
+        // ÜNİTE DETAYLARINA GİRİŞ
         function launchUnit(grade, unitIndex) {
             document.getElementById('selection-zone').classList.add('hidden');
             document.getElementById('study-zone').classList.remove('hidden');
@@ -483,6 +553,7 @@
             loadGameQuestion();
         }
 
+        // OYUN SORULARINI GETİRME
         function loadGameQuestion() {
             const questionBox = document.getElementById('game-question');
             const optionsBox = document.getElementById('game-options');
@@ -507,6 +578,7 @@
             });
         }
 
+        // CEVAP KONTROLÜ
         function checkAnswer(selected, correct) {
             const feedback = document.getElementById('game-feedback');
             if (selected === correct) {
